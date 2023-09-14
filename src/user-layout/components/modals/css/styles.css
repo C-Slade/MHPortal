@@ -1,0 +1,210 @@
+.addDocModal .section-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 5px;
+  border: 2px solid #466FFD !important;
+}
+.addDocModal .section-modal .animated-add-doc-btn-container {
+  width: 100%;
+}
+.addDocModal .section-modal .animated-add-doc-btn-container button {
+  width: 100%;
+}
+.addDocModal .section-modal .uploading-animated-container {
+  position: absolute;
+  width: 85%;
+  height: 85%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.addDocModal .section-modal .animated-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.addDocModal .section-modal .animated-container .Mui-error {
+  color: red;
+}
+.addDocModal .section-modal h6 {
+  font-size: 1rem;
+  color: #466FFD;
+  margin: 10px 0;
+}
+.addDocModal .section-modal button {
+  margin: 5px 0;
+}
+.addDocModal .section-modal h2 {
+  color: #466FFD;
+  margin: 5px 0 20px 0;
+}
+.addDocModal .section-modal p {
+  color: #466FFD;
+  margin: 5px 0;
+}
+.addDocModal .section-modal .file-name {
+  border: 1.25px solid #466FFD;
+  margin: 5px 0;
+  width: 100%;
+  align-self: center;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 5px;
+  padding: 5px;
+  align-items: center;
+}
+.addDocModal .section-modal .file-name img {
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+.addDocModal .section-modal .file-name .file-info-container {
+  display: flex;
+  align-items: center;
+}
+.addDocModal .section-modal .file-name .file-info-container h6 {
+  font-size: 1rem;
+  color: #466FFD;
+}
+.addDocModal .section-modal .file-name .file-info-container img {
+  width: 30px;
+  height: 30px;
+}
+
+.edit-document-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+  border: 2px solid #466FFD !important;
+  position: relative;
+  padding: 30px !important;
+  min-height: 400px;
+}
+.edit-document-modal .uploading-animated-container {
+  position: absolute !important;
+}
+.edit-document-modal .animated-container {
+  width: 100%;
+  height: 100%;
+}
+.edit-document-modal .change-file {
+  cursor: pointer;
+}
+.edit-document-modal h2 {
+  margin: 0 0 20px 0;
+  color: #466FFD;
+  text-align: center;
+}
+.edit-document-modal button {
+  width: 100%;
+  margin: 5px 0;
+}
+.edit-document-modal .allow-print-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 25px 0;
+}
+.edit-document-modal .allow-print-container h4 {
+  color: #466FFD;
+}
+.edit-document-modal .file-name {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100% !important;
+  border: 0.5px solid #466FFD;
+  border-radius: 5px;
+  margin: 10px 0;
+  padding: 10px;
+}
+.edit-document-modal .file-name .file-info-container {
+  display: flex;
+  align-items: center;
+}
+.edit-document-modal .file-name h6 {
+  color: #466FFD;
+  font-size: 1rem;
+}
+.edit-document-modal img {
+  width: 30px;
+  height: 30px;
+}
+
+.document-modal {
+  width: 350px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 5px;
+  border: 2px solid #466FFD !important;
+  position: relative;
+}
+.document-modal .alert {
+  position: static;
+}
+.document-modal .doc-name-info {
+  width: 75%;
+  text-align: center;
+  font-size: 1rem;
+  margin: 10px 0;
+  color: #466FFD;
+  font-weight: 500;
+}
+.document-modal .name-document {
+  width: 75%;
+  margin: 15px 0;
+}
+.document-modal h4 {
+  color: #466FFD;
+}
+.document-modal .choose-file {
+  width: 75%;
+  margin: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+}
+.document-modal .choose-file::file-selector-button {
+  border: 1px solid #466FFD;
+  border-radius: 2px;
+  color: #466FFD;
+  font-size: 1.125rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.document-modal .upload-document {
+  margin: 5px;
+}
+.document-modal .file-name {
+  width: 75%;
+  border: 0.5px solid #466FFD;
+  margin: 10px 0;
+  padding: 5px;
+  border-radius: 5px;
+}
+.document-modal .file-name h6 {
+  color: #466FFD;
+  font-size: 1rem;
+}
+.document-modal .drop-files {
+  height: 100px;
+  width: 75%;
+  border: 1px solid #466FFD;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+  border-radius: 5px;
+}
+.document-modal h2 {
+  font-size: 1.25rem;
+  color: #466FFD;
+}/*# sourceMappingURL=styles.css.map */

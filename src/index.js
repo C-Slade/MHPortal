@@ -1,22 +1,22 @@
 import React from "react";
+import "./css-global/styles.css";
 import ReactDOM from "react-dom/client";
-import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { getAnalytics } from "firebase/analytics";
 import { AuthProvider } from "./context/authContext";
-import { DataBaseProvider } from "./context/dbContext";
+import { AppProvider } from "./context/appContext";
 import { HashRouter as Router } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <>
-    <Router basename="/">
-      <DataBaseProvider>
+    <Router>
+      <AppProvider>
         <AuthProvider>
           <App />
         </AuthProvider>
-      </DataBaseProvider>
+      </AppProvider>
     </Router>
   </>
 );

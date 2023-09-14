@@ -1,0 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Staatliches&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Spline+Sans:wght@300;400;500;600;700&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Spline Sans", "Staatliches", cursive;
+}
+
+#root {
+  background-color: #d2d2d2;
+}
+
+body {
+  background-color: #d2d2d2;
+}/*# sourceMappingURL=styles.css.map */

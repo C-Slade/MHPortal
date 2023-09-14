@@ -1,19 +1,14 @@
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "./context/authContext";
-import AdminLayout from "./admin/app.jsx";
-import UserLayout from "./user/app.jsx";
+import UserLayout from "./user-layout/app.jsx";
+import { DocProvider } from "./context/docContext";
 
 function App() {
-  const navigate = useNavigate();
-  const { currentUser } = useAuth();
-
-  const getComponent = () => {
-    if (currentUser === null) navigate("/login");
-    else if (currentUser.admin === true) return <AdminLayout />;
-    else return <UserLayout />;
-  };
-
-  return <>{getComponent()}</>;
+  return (
+    <>
+      <DocProvider>
+        <UserLayout />
+      </DocProvider>
+    </>
+  );
 }
 
 export default App;

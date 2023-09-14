@@ -1,0 +1,10 @@
+.page-loader {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.6705882353);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 6;
+}/*# sourceMappingURL=styles.css.map */

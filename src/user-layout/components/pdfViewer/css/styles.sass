@@ -1,0 +1,41 @@
+.pdf-viewer
+    width: 100%
+    margin: 75px 0 0 0
+    height: calc( 100vh - 75px ) !important
+
+    #rpv-core__popover-body-inner-toolbar-more-actions
+        display: inline !important
+        div[aria-controls="rpv-core__modal-body-properties"]
+            .rpv-core__menu-item[data-testid="properties__menu"]
+                display: none !important
+
+        .rpv-core__menu
+            .rpv-core__menu-item[data-testid="get-file__download-menu"],
+            .rpv-core__menu-item[data-testid="open__menu"]
+                display: none !important
+
+            
+
+.pdf-no-print
+    .rpv-core__menu
+        .rpv-core__menu-item[data-testid="print__menu"],
+        .rpv-core__menu-item[data-testid="properties__menu"]
+            display: none !important
+
+    
+.rpv-core__viewer 
+    .rpv-toolbar__left
+        .rpv-toolbar__item 
+            .rpv-core__minimal-button[aria-label="Search"]
+                display: none !important
+
+        .rpv-toolbar__item
+            .rpv-core__minimal-button[aria-label|="Print"]
+                display: inline !important
+.pdf-no-print 
+    .rpv-core__viewer 
+        .rpv-default-layout__toolbar 
+            .rpv-toolbar__item 
+                .rpv-core__minimal-button[aria-label|="Print"]
+                    display: none !important
+

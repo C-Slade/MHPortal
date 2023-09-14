@@ -1,0 +1,32 @@
+.userLayout {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 92%;
+  height: 100vh;
+  background-color: #d2d2d2;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 0;
+  overflow-x: hidden;
+}
+.userLayout::-webkit-scrollbar {
+  width: 10px;
+}
+.userLayout::-webkit-scrollbar-track {
+  background: #fff;
+}
+.userLayout::-webkit-scrollbar-thumb {
+  background: #152D64;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+.userLayout::-webkit-scrollbar-thumb:hover {
+  background: #0138b0;
+}
+@media screen and (max-width: 1500px) {
+  .userLayout {
+    width: 100% !important;
+  }
+}/*# sourceMappingURL=styles.css.map */

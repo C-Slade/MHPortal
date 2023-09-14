@@ -1,0 +1,149 @@
+.doc-route-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 75px 0 0 0;
+}
+.doc-route-container:first-child {
+  margin: 75px 0 0 0;
+}
+.doc-route-container:last-child {
+  margin: 0 0 75px 0 !important;
+}
+.doc-route-container .admin-doc-section {
+  position: relative;
+}
+.doc-route-container .admin-doc-section .edting-options-container button {
+  margin: 0 10px;
+}
+.doc-route-container .admin-doc-section .options-container {
+  position: absolute;
+  top: -15px;
+  right: 0;
+  margin: 15px;
+  width: 50px;
+  height: 50px;
+}
+.doc-route-container .admin-doc-section .options-container .options-list-container {
+  right: 10%;
+  position: absolute;
+  width: 250%;
+  border: 1px solid #466FFD;
+  z-index: 6;
+  border-radius: 5px;
+}
+.doc-route-container .admin-doc-section .options-container .options-list-container ul {
+  list-style-type: none;
+}
+.doc-route-container .admin-doc-section .options-container .options-list-container ul li {
+  font-size: 1rem;
+  margin: 5px;
+  color: #466FFD;
+  font-weight: 500;
+  cursor: pointer;
+}
+.doc-route-container .admin-doc-section .options-container img {
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+.doc-route-container .admin-doc-section .options-container .options {
+  transform: scale(0.75);
+  cursor: pointer;
+}
+.doc-route-container .doc-section-container {
+  width: 95%;
+  background: white;
+  box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
+  -webkit-box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
+  -moz-box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
+  border-radius: 15px;
+  margin: 15px 0;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.doc-route-container .doc-section-container .change-title {
+  max-width: 250px;
+}
+.doc-route-container .doc-section-container h4 {
+  font-size: 25px;
+  text-transform: capitalize;
+  color: #152D64;
+}
+.doc-route-container .doc-section-container .docs-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.doc-route-container .doc-section-container .docs-container .document-container {
+  border: 2px solid #466FFD;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  height: 50px;
+  margin: 30px 20px;
+  padding: 0 10px;
+  position: relative;
+  z-index: 5;
+  text-decoration: none;
+}
+.doc-route-container .doc-section-container .docs-container .document-container h6 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 5px;
+  color: #466FFD;
+  text-align: center;
+}
+.doc-route-container .doc-section-container .docs-container .document-container .deleteFIle {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+}
+.doc-route-container .doc-section-container .docs-container .document-container img {
+  width: 24px;
+  height: 24px;
+}
+.doc-route-container .doc-section-container .docs-container .deleteDocStyle {
+  opacity: 50%;
+}
+.doc-route-container .section-skeleton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 25vh;
+  position: relative;
+}
+.doc-route-container .section-skeleton:hover {
+  border: 2px solid #466FFD;
+}
+.doc-route-container .section-skeleton img {
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+}
+.doc-route-container .section-skeleton .options {
+  position: absolute;
+  top: -15px;
+  right: 0;
+  margin: 15px;
+  transform: scale(0.75);
+  cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+  .document-container {
+    width: 100%;
+    height: auto !important;
+    min-height: 50px !important;
+  }
+  .document-container img {
+    justify-self: flex-start !important;
+  }
+  .document-container h6 {
+    justify-self: center !important;
+    align-self: center !important;
+  }
+}/*# sourceMappingURL=styles.css.map */
