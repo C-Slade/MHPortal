@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
       message: {
         subject: "Reset Password Maritime Helicopters",
         text: "",
-        html: `Welcome, click link to change password: http://192.168.0.8:3000/#/${key}/forgotPassword`,
+        html: `Welcome, click link to change password: http://localhost:3000/#/${key}/forgotPassword`,
       },
     });
   };
