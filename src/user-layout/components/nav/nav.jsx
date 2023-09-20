@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import "./css/styles.css";
 import logo from "../../../assets/maritimeLogo.png";
+import { v4 as uuidv4 } from "uuid";
 import { useDocs } from "../../../context/docContext";
 import NavLink from "./navLink";
 import { useAuth } from "../../../context/authContext";
@@ -22,7 +23,7 @@ const Nav = () => {
 
   return (
     <motion.nav
-      className="navbar"
+      className="navbar desktop-nav"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{
@@ -67,7 +68,7 @@ const Nav = () => {
               ? docNames.map((doc, i) => (
                   <NavLink
                     name={doc}
-                    key={i}
+                    key={`${i + doc}`}
                     type="folder"
                     link={`/docs/${doc}`}
                   />

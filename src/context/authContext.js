@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
       message: {
         subject: "Reset Password Maritime Helicopters",
         text: "",
-        html: `Welcome, click link to change password: http://192.168.0.8:3000/#/${key}/forgotPassword`,
+        html: `Welcome, click link to change password: http://localhost:3000/#/${key}/forgotPassword`,
       },
     });
   };
@@ -125,11 +125,13 @@ export const AuthProvider = ({ children }) => {
     const docRef = doc(collectionData, "users", `${uid}`);
     const docSnap = await getDoc(docRef);
 
+    const isOnLargeScreen = window.innerWidth >= 1366;
+
     if (docSnap.exists()) {
-      if (docSnap.data().settings.admin === true && window.innerWidth >= 1280) {
+      if (docSnap.data().settings.admin === true && isOnLargeScreen) {
         setAdmin(true);
         fetchUsers();
-      } else if (window.innerWidth < 1280) {
+      } else if (docSnap.data().settings.admin === true && !isOnLargeScreen) {
         alertError("Admin features available on larger screens");
       }
     }
@@ -137,6 +139,12 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const removeHashRoute = window.location.hash.replace("#", "");
+
+    const rememberLogin = localStorage.getItem("rememberLogin");
+
+    if (rememberLogin === "false") {
+      signOutUser();
+    }
 
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setCurrentUser(user);

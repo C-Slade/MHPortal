@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Login from "../login/login.jsx";
 import Dashboard from "./main/dashboard/dashboard.jsx";
+import { v4 as uuidv4 } from "uuid";
 import Nav from "./components/nav/nav.jsx";
 import SmallNav from "./components/nav/smallNav/nav.jsx";
 import Register from "../login/register.jsx";
@@ -71,11 +72,8 @@ function App() {
         ) : null}
         {currentUser ? <Header /> : null}
         <AnimatePresence>
-          {currentUser && window.innerWidth > 1366 ? (
-            <Nav />
-          ) : currentUser && window.innerWidth < 1366 ? (
-            <SmallNav />
-          ) : null}
+          {currentUser ? <Nav key="desktopNav" /> : null}
+          {currentUser ? <SmallNav key="mobileNav" /> : null}
           <Routes location={location} key={location.pathname}>
             {!currentUser ? (
               <>
@@ -101,7 +99,11 @@ function App() {
                       <Route
                         path={`/docs/${key}`}
                         element={
-                          <DocRoute docs={allDocs[key]} key={i} title={key} />
+                          <DocRoute
+                            docs={allDocs[key]}
+                            key={`${i + key}`}
+                            title={key}
+                          />
                         }
                         key={i}
                       />

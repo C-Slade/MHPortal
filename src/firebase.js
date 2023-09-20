@@ -22,8 +22,6 @@ export const auth = getAuth(app);
 export const storage = getStorage(app);
 export default app;
 
-// const functions = getFunctions(getApp());
-
 // connectAuthEmulator(auth, "http://127.0.0.1", 9099);
 // connectFirestoreEmulator(collectionData, "127.0.0.1", 8081);
 // connectStorageEmulator(storage, "127.0.0.1", 9199);

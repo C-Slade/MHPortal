@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { TextField, Button } from "@mui/material";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import { useAuth } from "../context/authContext";
 import { motion } from "framer-motion";
 import "./css/styles.css";
@@ -10,10 +12,11 @@ import wave from "../assets/animated-trans-blue-bg-lg.svg";
 import { useApp } from "../context/appContext";
 
 const Login = () => {
-  const { signInUser, currentUser, loggingOut } = useAuth();
+  const { signInUser, currentUser } = useAuth();
   const { alertError } = useApp();
   const navigate = useNavigate();
   const [isAnimatedFormOpen] = useState(false);
+  const [keepLoggedInStatus, setLoginStatus] = useState(false);
   const [loggingIn, setLogging] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState();
@@ -38,8 +41,22 @@ const Login = () => {
     }
   };
 
+  const rememberLogin = (checked) => {
+    if (checked) {
+      localStorage.setItem("rememberLogin", "true");
+      setLoginStatus(true);
+    } else {
+      localStorage.setItem("rememberLogin", "false");
+      setLoginStatus(false);
+    }
+  };
+
   useEffect(() => {
-    console.log("render");
+    const local = localStorage.getItem("rememberLogin");
+    if (local) {
+      if (local === "false") setLoginStatus(false);
+      if (local === "true") setLoginStatus(true);
+    }
   }, []);
 
   const variants = {
@@ -90,6 +107,15 @@ const Login = () => {
                     onChange={(e) => setPassword(e.target.value)}
                   />
                   <Link to="/forgotPass">Forgot Password?</Link>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={keepLoggedInStatus}
+                        onChange={() => rememberLogin(!keepLoggedInStatus)}
+                      />
+                    }
+                    label="Keep me logged in"
+                  />
                 </div>
                 <Button
                   variant="contained"

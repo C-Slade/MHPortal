@@ -19,7 +19,7 @@ const Doc = ({ document, editing }) => {
   const deleteFIle = () => {
     if (deleteDoc) {
       const files = filesToDelete;
-      // setFilesToDelete(files.filter((file) => file.id !== document.id));
+      setFilesToDelete(files.filter((file) => file.id !== document.id));
     } else {
       setDelete(true);
       const files = filesToDelete;

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 const AppContext = React.createContext();
 
@@ -11,6 +11,7 @@ export const AppProvider = ({ children }) => {
   const [alertMessage, setAlertMessage] = useState("");
   const [onPDFviewer, setPDFviewer] = useState(false);
   const [alertType, setAlertType] = useState("error");
+  const [onLargeScreen, setScreen] = useState(false);
 
   const alertError = (message) => {
     setAlertMessage(message);
@@ -35,6 +36,14 @@ export const AppProvider = ({ children }) => {
     setAlertType("success");
   };
 
+  useEffect(() => {
+    if (window.innerWidth >= 1366) {
+      setScreen(true);
+    } else {
+      setScreen(false);
+    }
+  }, []);
+
   const value = {
     alertError,
     alert,
@@ -46,6 +55,7 @@ export const AppProvider = ({ children }) => {
     alertType,
     alertSuccess,
     alertWarning,
+    onLargeScreen,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

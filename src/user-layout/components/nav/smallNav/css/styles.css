@@ -33,4 +33,11 @@
 }
 .small-nav .nav-info-wrapper {
   background: transparent;
+  width: 300px !important;
+}
+
+@media screen and (min-width: 1366px) {
+  .toggle-nav {
+    display: none;
+  }
 }/*# sourceMappingURL=styles.css.map */

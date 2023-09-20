@@ -25,7 +25,7 @@
 .userLayout::-webkit-scrollbar-thumb:hover {
   background: #0138b0;
 }
-@media screen and (max-width: 1500px) {
+@media screen and (max-width: 1366px) {
   .userLayout {
     width: 100% !important;
   }

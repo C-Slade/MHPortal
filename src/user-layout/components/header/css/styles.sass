@@ -2,7 +2,7 @@
 
 header
     height: 75px
-    position: fixed
+    position: fixed !important
     width: 88%
     background: white
     box-shadow: -1px 4px 6px -1px rgba(46,46,46,0.75)
@@ -31,7 +31,7 @@ header
         align-items: center
         gap: 10px
 
-        .css-2m9kme-MuiFormControl-root 
+        #select-people
             legend
                 font-size: 2.5rem !important
 
@@ -39,6 +39,10 @@ header
         font-size: 25px
         text-transform: capitalize
         color: $main-color
+
+        .back-btn
+            text-decoration: underline
+            cursor: pointer
 
     .user-container
         display: flex
@@ -48,7 +52,7 @@ header
             height: 24px
             margin: 0 10px
 
-@media screen and (max-width: $laptop-big-breakpoint) 
+@media screen and (max-width: $laptop-medium-breakpoint) 
     .user-container
         display: none !important
     header 

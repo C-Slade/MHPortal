@@ -24,7 +24,7 @@ const variants = {
 };
 
 const Header = () => {
-  let location = useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
   const {
     setPageName,
@@ -37,7 +37,7 @@ const Header = () => {
     docOnPreview,
     docNames,
   } = useDocs();
-  const { currentUser, admin } = useAuth();
+  const { currentUser, admin, signOutUser, getRegisterKey } = useAuth();
   const { alertError, onPDFviewer, alertSuccess } = useApp();
   const [editingPage, toggleEdit] = useState(false);
   const [newPageName, setNewPageName] = useState("");
@@ -162,7 +162,18 @@ const Header = () => {
 
   const getTitle = () => {
     if (location.pathname.includes("view")) {
-      return docOnPreview.name;
+      const previousLocationsArray = location.pathname.split("/");
+      const index = previousLocationsArray.indexOf("view");
+      return (
+        <>
+          <p>
+            <span className="back-btn" onClick={() => navigate(-1)}>
+              {previousLocationsArray[index - 1]}
+            </span>
+            /{docOnPreview.name}
+          </p>
+        </>
+      );
     } else {
       return location.pathname.replace("/", "");
     }
@@ -176,6 +187,10 @@ const Header = () => {
     if (path.includes("login")) {
       navigate("/dashboard");
       return;
+    }
+
+    if (path.includes("register")) {
+      signOutUser();
     }
 
     if (

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { MenuToggle } from "./menuToggle";
+import { v4 as uuidv4 } from "uuid";
 import logo from "../../../../assets/maritimeLogo.png";
 import right_arrow_icon from "../../../../assets/right-arrow.png";
 import NavLink from "../navLink";
@@ -13,6 +14,7 @@ const sidebar = {
   open: {
     zIndex: 20,
     opacity: 1,
+    width: "300px",
     transition: {
       type: "spring",
       stiffness: 20,
@@ -98,7 +100,7 @@ export const SmallNav = () => {
                   ? docNames.map((doc, i) => (
                       <NavLink
                         name={doc}
-                        key={i}
+                        key={uuidv4()}
                         type="folder"
                         link={`/docs/${doc}`}
                       />

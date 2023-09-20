@@ -1,6 +1,6 @@
 header {
   height: 75px;
-  position: fixed;
+  position: fixed !important;
   width: 88%;
   background: white;
   box-shadow: -1px 4px 6px -1px rgba(46, 46, 46, 0.75);
@@ -28,13 +28,17 @@ header .header-doc-settings {
   align-items: center;
   gap: 10px;
 }
-header .header-doc-settings .css-2m9kme-MuiFormControl-root legend {
+header .header-doc-settings #select-people legend {
   font-size: 2.5rem !important;
 }
 header h1 {
   font-size: 25px;
   text-transform: capitalize;
   color: #152D64;
+}
+header h1 .back-btn {
+  text-decoration: underline;
+  cursor: pointer;
 }
 header .user-container {
   display: flex;
@@ -46,7 +50,7 @@ header .user-container img {
   margin: 0 10px;
 }
 
-@media screen and (max-width: 1500px) {
+@media screen and (max-width: 1366px) {
   .user-container {
     display: none !important;
   }

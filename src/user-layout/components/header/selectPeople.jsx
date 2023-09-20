@@ -91,7 +91,7 @@ export default function MultipleSelectCheckmarks({ sumbiting }) {
 
   return (
     <div>
-      <FormControl sx={{ m: 1, width: 300 }} size="small">
+      <FormControl sx={{ m: 1, width: 300 }} size="small" id="select-people">
         <InputLabel id="demo-multiple-checkbox-label">Can Modify</InputLabel>
         <Select
           labelId="demo-multiple-checkbox-label"

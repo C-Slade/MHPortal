@@ -548,7 +548,8 @@ export const DocProvider = ({ children }) => {
             });
           })
           .catch((error) => {
-            console.log(error);
+            const errorMessage = error.message;
+            alertError(errorMessage);
             return error;
           });
       }

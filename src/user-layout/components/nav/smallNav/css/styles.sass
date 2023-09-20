@@ -33,3 +33,13 @@
     z-index: 20
     .nav-info-wrapper 
         background: transparent
+        width: 300px !important
+
+@media screen and (min-width: $laptop-medium-breakpoint)
+    .toggle-nav
+        display: none
+
+
+@media screen and (max-width: $laptop-medium-breakpoint)
+    .small-nav .nav-info-wrapper 
+        // display: fixed !important

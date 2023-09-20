@@ -111,26 +111,26 @@
 }
 
 @media screen and (max-width: 1500px) {
-  .navbar {
-    width: 300px;
-  }
-  .navbar .drop-down img {
+  .desktop-nav .drop-down img {
     width: 18px !important;
     height: 18px !important;
   }
-  .navbar .branding-container h2 {
+  .desktop-nav .branding-container h2 {
     font-size: 0.95rem;
   }
-  .navbar .nav-link-container h4 {
+  .desktop-nav .nav-link-container h4 {
     font-size: 12px !important;
   }
-  .navbar .nav-link-container img {
+  .desktop-nav .nav-link-container img {
     width: 24px !important;
     height: 24px !important;
   }
 }
 @media screen and (max-width: 1366px) {
-  .navbar .branding-container h2 {
+  .desktop-nav {
+    display: none;
+  }
+  .desktop-nav .branding-container h2 {
     font-size: 0.85rem;
   }
 }/*# sourceMappingURL=styles.css.map */
