@@ -13,7 +13,6 @@ const DocRoute = ({ docs, title }) => {
   const { allDocs } = useDocs();
 
   useEffect(() => {
-    console.log("render docROute");
     docs.moderators.forEach((moderator) => {
       if (moderator.id === currentUser.uid) {
         setModerator(true);
@@ -21,6 +20,7 @@ const DocRoute = ({ docs, title }) => {
     });
     setDocsToShow(docs.sections);
     window.scrollTo(0, 1);
+    console.log("render docRoute");
   }, []);
   return (
     <>

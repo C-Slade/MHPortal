@@ -30,7 +30,8 @@ function App() {
     fetchingRegisterKey,
   } = useAuth();
   const { alert, alertWarning } = useApp();
-  const { allDocs, uploadingNewLayout, loadingFIle, docNames } = useDocs();
+  const { allDocs, uploadingNewLayout, loadingFIle, docNames, allManuals } =
+    useDocs();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -101,7 +102,22 @@ function App() {
                         element={
                           <DocRoute
                             docs={allDocs[key]}
-                            key={`${i + key}`}
+                            key={uuidv4()}
+                            title={key}
+                          />
+                        }
+                        key={i}
+                      />
+                    ))
+                  : null}
+                {allManuals
+                  ? Object.keys(allManuals).map((key, i) => (
+                      <Route
+                        path={`/manuals/${key}`}
+                        element={
+                          <DocRoute
+                            docs={allManuals[key]}
+                            key={uuidv4()}
                             title={key}
                           />
                         }
@@ -110,10 +126,16 @@ function App() {
                     ))
                   : null}
                 {admin ? (
-                  <Route
-                    path="/docs/createFolder"
-                    element={<CreateDocRoute />}
-                  />
+                  <>
+                    <Route
+                      path="/docs/createFolder"
+                      element={<CreateDocRoute />}
+                    />
+                    <Route
+                      path="/manuals/createFolder"
+                      element={<CreateDocRoute />}
+                    />
+                  </>
                 ) : null}
                 <Route path="/training/part-135" element={<Dashboard />} />
                 <Route path="/training/part-145" element={<Dashboard />} />

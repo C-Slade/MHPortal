@@ -168,8 +168,12 @@ export default function NestedModal() {
   const [title, setTitle] = useState("");
   const [upLoading, setUploading] = useState(false);
   const { alertSuccess } = useApp();
-  const { addSectionsToNewPage, creatingNewPage, uploadNewSectionToDoc } =
-    useDocs();
+  const {
+    addSectionsToNewPage,
+    creatingNewPage,
+    uploadNewSectionToDoc,
+    queryName,
+  } = useDocs();
   const location = useLocation();
 
   const handleOpen = () => {
@@ -221,7 +225,10 @@ export default function NestedModal() {
       const removeSpacesPath = files[i].file.name
         .replace(/ /g, "-")
         .replace(".pdf", "");
-      const docRef = ref(storage, `/docs/${removeSpacesPath}-${randomId}.pdf`);
+      const docRef = ref(
+        storage,
+        `/${queryName}/${removeSpacesPath}-${randomId}.pdf`
+      );
 
       const docName = files[i].file.name.replace(".pdf", "");
 
@@ -241,7 +248,7 @@ export default function NestedModal() {
 
     try {
       await uploadNewSectionToDoc(
-        location.pathname.replace("/docs/", ""),
+        location.pathname.replace(`/${queryName}/`, ""),
         section
       );
       setUploading(false);

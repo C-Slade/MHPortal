@@ -14,7 +14,7 @@ const variants = {
 };
 
 const Nav = () => {
-  const { docNames } = useDocs();
+  const { docNames, manualNames } = useDocs();
   const { admin } = useAuth();
 
   const [openDocs, setOpenDocs] = useState(false);
@@ -79,6 +79,44 @@ const Nav = () => {
                 name="create"
                 type="create-folder"
                 link={`/docs/createFolder`}
+              />
+            ) : null}
+          </>
+        ) : null}
+      </div>
+      <div className="docs section">
+        <h6
+          className="nav-category"
+          onClick={() => setOpenManuals(!openManuals)}
+          style={{ cursor: "pointer" }}
+        >
+          Manuals
+          <span className="drop-down">
+            <motion.img
+              src={right_arrow_icon}
+              alt="open menu"
+              animate={openManuals ? "open" : "closed"}
+              variants={variants}
+            />
+          </span>
+        </h6>
+        {openManuals ? (
+          <>
+            {manualNames
+              ? manualNames.map((manual, i) => (
+                  <NavLink
+                    name={manual}
+                    key={`${i + manual}`}
+                    type="folder"
+                    link={`/manuals/${manual}`}
+                  />
+                ))
+              : null}
+            {admin ? (
+              <NavLink
+                name="create"
+                type="create-folder"
+                link={`/manuals/createFolder`}
               />
             ) : null}
           </>

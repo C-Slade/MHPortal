@@ -17,7 +17,7 @@ import {
   deleteObject,
   getDownloadURL,
 } from "firebase/storage";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useApp } from "./appContext.js";
 
 const DocContext = React.createContext();
@@ -32,6 +32,8 @@ export const DocProvider = ({ children }) => {
   const { alertError } = useApp();
   const [docNames, setDocNames] = useState([]);
   const [allDocs, setAlldocs] = useState();
+  const [allManuals, setAllManuals] = useState();
+  const [manualNames, setManualNames] = useState([]);
   const [moderatorNames, setModeratorNames] = useState([]);
   // sections is only used when creating a new page
   const [sections, setSections] = useState([]);
@@ -42,8 +44,11 @@ export const DocProvider = ({ children }) => {
   const [pdfDocName, setPdfDocName] = useState("");
   const [filesToDelete, setFilesToDelete] = useState([]);
   const [docOnPreview, setDocOnPreview] = useState();
+  const [queryName, setQueryName] = useState("");
   // used to refresh pdf viewer and get updated file
   const [newDocToPreview, toggleNewDocToPreview] = useState(false);
+
+  const location = useLocation();
 
   const metadata = {
     contentType: "application/pdf",
@@ -51,7 +56,7 @@ export const DocProvider = ({ children }) => {
 
   const fetchDocs = () => {
     return new Promise(async (resolve, reject) => {
-      const docRef = doc(collectionData, "docs", "docs");
+      const docRef = doc(collectionData, `${queryName}`, `${queryName}`);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -114,8 +119,10 @@ export const DocProvider = ({ children }) => {
   };
 
   const uploadNewSectionToDoc = async (docPage, section) => {
-    const docRef = doc(collectionData, "docs", "docs");
-    const querySnapshot = await getDocs(collection(collectionData, "docs"));
+    const docRef = doc(collectionData, `${queryName}`, `${queryName}`);
+    const querySnapshot = await getDocs(
+      collection(collectionData, `${queryName}`)
+    );
     querySnapshot.forEach(async (doc) => {
       const document = doc.data();
 
@@ -135,8 +142,10 @@ export const DocProvider = ({ children }) => {
 
   const uploadDocsToSection = (docsToPreview, pageID, sectionIndex) => {
     return new Promise(async (resolve, reject) => {
-      const docRef = doc(collectionData, "docs", "docs");
-      const querySnapshot = await getDocs(collection(collectionData, "docs"));
+      const docRef = doc(collectionData, `${queryName}`, `${queryName}`);
+      const querySnapshot = await getDocs(
+        collection(collectionData, `${queryName}`)
+      );
       querySnapshot.forEach(async (doc) => {
         const document = doc.data();
 
@@ -164,7 +173,7 @@ export const DocProvider = ({ children }) => {
                   .replace(".pdf", "");
                 const docRef = ref(
                   storage,
-                  `/docs/${removeSpacesPath}-${randomId}.pdf`
+                  `/${queryName}/${removeSpacesPath}-${randomId}.pdf`
                 );
 
                 const docName = docsToPreview[i].file.name.replace(".pdf", "");
@@ -210,7 +219,7 @@ export const DocProvider = ({ children }) => {
 
   const updateFile = (id, info) => {
     return new Promise(async (resolve, reject) => {
-      const docRef = doc(collectionData, "docs", "docs");
+      const docRef = doc(collectionData, `${queryName}`, `${queryName}`);
       const docSnap = await getDoc(docRef);
 
       const randomId = uuidv4();
@@ -234,7 +243,7 @@ export const DocProvider = ({ children }) => {
 
                     const docRef = ref(
                       storage,
-                      `/docs/${removeSpacesPath}-${randomId}.pdf`
+                      `/${queryName}/${removeSpacesPath}-${randomId}.pdf`
                     );
                     const newData = { ...data };
 
@@ -276,7 +285,7 @@ export const DocProvider = ({ children }) => {
 
   const updateNewDoc = (newData) => {
     return new Promise(async (resolve, reject) => {
-      const docRef = doc(collectionData, "docs", "docs");
+      const docRef = doc(collectionData, `${queryName}`, `${queryName}`);
       await updateDoc(docRef, newData);
       resolve();
     });
@@ -284,7 +293,7 @@ export const DocProvider = ({ children }) => {
 
   const getStoragePath = (id) => {
     return new Promise(async (resolve, reject) => {
-      const docRef = doc(collectionData, "docs", "docs");
+      const docRef = doc(collectionData, `${queryName}`, `${queryName}`);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
 
@@ -310,7 +319,7 @@ export const DocProvider = ({ children }) => {
 
   const updateSectionTitle = (pageID, sectionIndex, newTitle) => {
     return new Promise(async (resolve, reject) => {
-      const docRef = doc(collectionData, "docs", "docs");
+      const docRef = doc(collectionData, `${queryName}`, `${queryName}`);
       const docSnap = await getDoc(docRef);
       const data = docSnap.data();
 
@@ -339,14 +348,16 @@ export const DocProvider = ({ children }) => {
     });
   };
 
-  const updatePageSettings = (type, defaultPageName) => {
+  const updatePageSettings = (defaultPageName, newPageName) => {
     return new Promise(async (resolve, reject) => {
-      const docRef = doc(collectionData, type, type);
-      const querySnapshot = await getDocs(collection(collectionData, type));
+      const docRef = doc(collectionData, `${queryName}`, `${queryName}`);
+      const querySnapshot = await getDocs(
+        collection(collectionData, `${queryName}`)
+      );
       const allUsers = await fetchAllUsers();
       querySnapshot.forEach(async (doc) => {
         const document = doc.data();
-        const allDocuments = document;
+        let allDocuments = document;
 
         let updatedModerators = [];
 
@@ -360,9 +371,17 @@ export const DocProvider = ({ children }) => {
 
         let onNewPage = false;
 
-        const removeSpacesName = pageName.replace(/ /g, "-");
+        const removeSpacesName = newPageName.replace(/ /g, "-");
 
-        if (pageName !== defaultPageName) {
+        if (newPageName !== defaultPageName) {
+          for (const key in allDocuments) {
+            if (Object.hasOwnProperty.call(allDocuments, key)) {
+              if (key === removeSpacesName) {
+                reject("Page name already exists");
+                return;
+              }
+            }
+          }
           onNewPage = true;
           allDocuments[removeSpacesName] = allDocuments[defaultPageName];
           delete allDocuments[defaultPageName];
@@ -378,7 +397,7 @@ export const DocProvider = ({ children }) => {
         await updateDoc(docRef, allDocuments);
 
         if (onNewPage) {
-          navigate(`docs/${removeSpacesName}`);
+          navigate(`${queryName}/${removeSpacesName}`);
         }
 
         resolve();
@@ -388,11 +407,15 @@ export const DocProvider = ({ children }) => {
 
   const deleteDocs = (sectionIndex) => {
     return new Promise(async (resolve, reject) => {
-      const docRef = doc(collectionData, "docs", "docs");
-      const querySnapshot = await getDocs(collection(collectionData, "docs"));
+      const docRef = doc(collectionData, `${queryName}`, `${queryName}`);
+      const querySnapshot = await getDocs(
+        collection(collectionData, `${queryName}`)
+      );
       querySnapshot.forEach(async (res) => {
         const data = res.data();
         const allDocuments = data;
+
+        console.log(pageName);
 
         if (allDocuments[pageName] === undefined) {
           reject("The page you are trying to edit no longer exists");
@@ -436,8 +459,15 @@ export const DocProvider = ({ children }) => {
   };
 
   const deletePage = async (page) => {
-    const docRef = doc(collectionData, "docs", "docs");
-    const pageToDelete = allDocs[page];
+    const docRef = doc(collectionData, `${queryName}`, `${queryName}`);
+
+    let pageToDelete;
+
+    if (queryName === "manuals") {
+      pageToDelete = allManuals[page];
+    } else {
+      pageToDelete = allDocs[page];
+    }
     const sections = pageToDelete.sections;
 
     for (let i = 0; i < sections.length; i++) {
@@ -455,7 +485,9 @@ export const DocProvider = ({ children }) => {
       }
     }
 
-    const querySnapshot = await getDocs(collection(collectionData, "docs"));
+    const querySnapshot = await getDocs(
+      collection(collectionData, `${queryName}`)
+    );
     querySnapshot.forEach(async (doc) => {
       await updateDoc(docRef, {
         [page]: deleteField(),
@@ -465,9 +497,11 @@ export const DocProvider = ({ children }) => {
   };
 
   const deleteSection = (pageID, sectionIndex) => {
-    const docRef = doc(collectionData, "docs", "docs");
+    const docRef = doc(collectionData, `${queryName}`, `${queryName}`);
     return new Promise(async (resolve, reject) => {
-      const querySnapshot = await getDocs(collection(collectionData, "docs"));
+      const querySnapshot = await getDocs(
+        collection(collectionData, `${queryName}`)
+      );
       querySnapshot.forEach(async (doc) => {
         const document = doc.data();
         let nameOfPage = "";
@@ -532,7 +566,7 @@ export const DocProvider = ({ children }) => {
           .replace(".pdf", "");
         const docRef = ref(
           storage,
-          `/docs/${removeSpacesPath}-${randomId}.pdf`
+          `/${queryName}/${removeSpacesPath}-${randomId}.pdf`
         );
 
         const doc = sections[index].docs[i];
@@ -556,7 +590,7 @@ export const DocProvider = ({ children }) => {
       pageSections.push(sectionToUpload);
     }
 
-    const docRef = doc(collectionData, "docs", "docs");
+    const docRef = doc(collectionData, `${queryName}`, `${queryName}`);
     const moderatorIds = await getModeratorUids(moderatorNames);
 
     const removeSpacesName = newPageName.replace(/ /g, "-");
@@ -578,7 +612,6 @@ export const DocProvider = ({ children }) => {
 
   useEffect(() => {
     if (currentUser !== undefined) {
-      // startDownload();
       const unsub = onSnapshot(doc(collectionData, "docs", "docs"), (doc) => {
         const data = doc.data();
         const documentNames = Object.keys(doc.data());
@@ -588,6 +621,33 @@ export const DocProvider = ({ children }) => {
       return unsub;
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    if (currentUser !== undefined) {
+      const unsub = onSnapshot(
+        doc(collectionData, "manuals", "manuals"),
+        (manual) => {
+          const data = manual.data();
+          const documentNames = Object.keys(manual.data());
+          setAllManuals(data);
+          setManualNames(documentNames.sort());
+        }
+      );
+      return unsub;
+    }
+  }, [currentUser]);
+
+  useEffect(() => {
+    const onRoute = (name) => location.pathname.includes(name);
+
+    if (onRoute("manuals")) {
+      setQueryName("manuals");
+    }
+
+    if (onRoute("docs")) {
+      setQueryName("docs");
+    }
+  }, [location]);
 
   const value = {
     docNames,
@@ -626,6 +686,9 @@ export const DocProvider = ({ children }) => {
     newDocToPreview,
     toggleNewDocToPreview,
     updateSectionTitle,
+    queryName,
+    allManuals,
+    manualNames,
   };
 
   return <DocContext.Provider value={value}>{children}</DocContext.Provider>;

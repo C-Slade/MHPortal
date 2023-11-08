@@ -35,7 +35,6 @@ const Doc = ({ document, editing }) => {
   };
 
   useEffect(() => {
-    console.log("render doc");
     setPath(`view/${document.id}`);
   }, []);
 

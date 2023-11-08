@@ -28,7 +28,6 @@ const Header = () => {
   const navigate = useNavigate();
   const {
     setPageName,
-    pageName,
     setSections,
     submitNewPageLayout,
     toggleCreatingNewPage,
@@ -50,19 +49,11 @@ const Header = () => {
 
   const savePageSettings = async () => {
     setLoading(true);
-    if (currentPage.includes("docs")) {
-      if (currentPage.includes("createFolder")) {
-        await updatePageSettings("docs", newPageName);
-      } else {
-        await updatePageSettings("docs", defaultPageName);
-      }
-      setLoading(false);
-      toggleEdit(false);
-    } else if (currentPage.includes("manuals")) {
-      if (currentPage.includes("createFolder")) {
-        await updatePageSettings("manuals", newPageName);
-      } else {
-        await updatePageSettings("manuals", defaultPageName);
+    if (currentPage.includes("docs") || currentPage.includes("manuals")) {
+      try {
+        await updatePageSettings(defaultPageName, newPageName);
+      } catch (error) {
+        alertError(error);
       }
       setLoading(false);
       toggleEdit(false);
@@ -102,12 +93,8 @@ const Header = () => {
           label="Page Name"
           variant="outlined"
           size="small"
-          onChange={(e) =>
-            currentPage.includes("createFolder")
-              ? setNewPageName(e.target.value)
-              : setPageName(e.target.value)
-          }
-          value={currentPage.includes("createFolder") ? newPageName : pageName}
+          onChange={(e) => setNewPageName(e.target.value)}
+          value={newPageName}
         />
         {!onPDFviewer && admin ? <SelectPeople sumbiting={sumbiting} /> : null}
         {location.pathname.includes("/createFolder") && admin ? (
@@ -182,7 +169,12 @@ const Header = () => {
   useEffect(() => {
     const path = location.pathname;
     setLoading(false);
-    setDefaultPageName(location.pathname.replace("/docs/", ""));
+    setDefaultPageName(path.replace("/docs/", "").replace("/manuals/", ""));
+    if (path.includes("createFolder")) {
+      setNewPageName("");
+    } else {
+      setNewPageName(path.replace("/docs/", "").replace("/manuals/", ""));
+    }
 
     if (path.includes("login")) {
       navigate("/dashboard");
@@ -215,7 +207,9 @@ const Header = () => {
 
       toggleCreatingNewPage(true);
     } else {
-      setPageName(location.pathname.replace("/docs/", ""));
+      setPageName(
+        location.pathname.replace("/docs/", "").replace("/manuals/", "")
+      );
       toggleCreatingNewPage(false);
       toggleEdit(false);
     }

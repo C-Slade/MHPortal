@@ -27,7 +27,8 @@ export default function MultipleSelectCheckmarks({ sumbiting }) {
   const [userInfo, setUsers] = React.useState([]);
   const { users, fetchUser } = useAuth();
   const { alertError } = useApp();
-  const { setModeratorNames, getModeratorUids, allDocs } = useDocs();
+  const { setModeratorNames, getModeratorUids, allDocs, allManuals } =
+    useDocs();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -42,6 +43,7 @@ export default function MultipleSelectCheckmarks({ sumbiting }) {
   const getNames = async (currentPage) => {
     if (
       allDocs[currentPage] === undefined &&
+      allManuals[currentPage] === undefined &&
       !location.pathname.includes("createFolder")
     ) {
       navigate("/dashboard");
@@ -59,7 +61,14 @@ export default function MultipleSelectCheckmarks({ sumbiting }) {
     const allUids = await getModeratorUids(userNames);
     if (currentPage === "createFolder") return;
 
-    const pageModerators = allDocs[currentPage].moderators;
+    let pageModerators;
+
+    if (allDocs[currentPage] === undefined) {
+      pageModerators = allManuals[currentPage].moderators;
+    } else {
+      pageModerators = allDocs[currentPage].moderators;
+    }
+
     let listOfModerators = [];
 
     if (pageModerators) {
@@ -84,6 +93,7 @@ export default function MultipleSelectCheckmarks({ sumbiting }) {
     if (!location.pathname.includes("view")) {
       const currentPage = location.pathname
         .replace("/docs/", "")
+        .replace("/manuals/", "")
         .replace(/ /g, "-");
       getNames(currentPage);
     }
