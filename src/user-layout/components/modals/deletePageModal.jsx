@@ -9,6 +9,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import "./css/styles.css";
 import { useDocs } from "../../../context/docContext";
 import { useApp } from "../../../context/appContext";
+import { useTraining } from "../../../context/trainingContext";
 
 const style = {
   position: "absolute",
@@ -29,9 +30,10 @@ const variants = {
   closed: { opacity: 0, transform: "scale(0)" },
 };
 
-export default function DeletePage({ headerLoading }) {
+export default function DeletePage({ headerLoading, onTrainingPage }) {
   const [open, setOpen] = useState(false);
   const { deletePage, pageName } = useDocs();
+  const { deleteQuizModule, currentModule } = useTraining();
   const [loading, setLoading] = useState(false);
 
   const handleOpen = () => {
@@ -43,7 +45,11 @@ export default function DeletePage({ headerLoading }) {
 
   const handleDelete = async () => {
     setLoading(true);
-    await deletePage(pageName);
+    if (onTrainingPage) {
+      await deleteQuizModule(currentModule.moduleID);
+    } else {
+      await deletePage(pageName);
+    }
     setLoading(false);
     handleClose();
   };

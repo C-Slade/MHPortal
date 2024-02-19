@@ -689,6 +689,7 @@ export const DocProvider = ({ children }) => {
     queryName,
     allManuals,
     manualNames,
+    setQueryName,
   };
 
   return <DocContext.Provider value={value}>{children}</DocContext.Provider>;

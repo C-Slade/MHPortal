@@ -96,7 +96,9 @@ const Header = () => {
           onChange={(e) => setNewPageName(e.target.value)}
           value={newPageName}
         />
-        {!onPDFviewer && admin ? <SelectPeople sumbiting={sumbiting} /> : null}
+        {!onPDFviewer && admin && !location.pathname.includes("training") ? (
+          <SelectPeople sumbiting={sumbiting} />
+        ) : null}
         {location.pathname.includes("/createFolder") && admin ? (
           <>
             <LoadingButton
@@ -140,7 +142,10 @@ const Header = () => {
             >
               <span>Close</span>
             </LoadingButton>
-            <DeletePage headerLoading={loading} />
+            <DeletePage
+              headerLoading={loading}
+              onTrainingPage={location.pathname.includes("training")}
+            />
           </>
         ) : null}
       </motion.div>
@@ -173,7 +178,12 @@ const Header = () => {
     if (path.includes("createFolder")) {
       setNewPageName("");
     } else {
-      setNewPageName(path.replace("/docs/", "").replace("/manuals/", ""));
+      setNewPageName(
+        path
+          .replace("/docs/", "")
+          .replace("/manuals/", "")
+          .replace("/training/", "")
+      );
     }
 
     if (path.includes("login")) {
@@ -226,7 +236,10 @@ const Header = () => {
         variants={variants}
       >
         <h1>{getTitle()}</h1>
-        {admin && onFIlePages && !onPDFviewer ? (
+        {(admin && onFIlePages && !onPDFviewer) ||
+        (location.pathname.includes("/training") &&
+          admin &&
+          !location.pathname.includes("createQuiz")) ? (
           <img
             src={edit_icon}
             alt="Edit document"
@@ -241,7 +254,8 @@ const Header = () => {
         ) : null}
       </motion.div>
       {location.pathname.includes("docs") ||
-      location.pathname.includes("manuals")
+      location.pathname.includes("manuals") ||
+      location.pathname.includes("training")
         ? headerDocSettings()
         : null}
       <div className="user-container">

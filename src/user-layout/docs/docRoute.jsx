@@ -7,7 +7,6 @@ import SectionSkeleton from "./components/sectionSkeleton.jsx";
 import { useDocs } from "../../context/docContext";
 
 const DocRoute = ({ docs, title }) => {
-  const [docsToShow, setDocsToShow] = useState();
   const [moderator, setModerator] = useState(false);
   const { currentUser, admin } = useAuth();
   const { allDocs } = useDocs();
@@ -18,24 +17,20 @@ const DocRoute = ({ docs, title }) => {
         setModerator(true);
       }
     });
-    setDocsToShow(docs.sections);
     window.scrollTo(0, 1);
-    console.log("render docRoute");
   }, []);
   return (
     <>
       <div className="doc-route-container">
-        {docsToShow
-          ? docsToShow.map((doc, i) => (
-              <Section
-                key={uuidv4()}
-                docs={doc}
-                pageID={docs.id}
-                sectionIndex={i}
-                moderator={moderator}
-              />
-            ))
-          : null}
+        {docs.sections.map((doc, i) => (
+          <Section
+            key={uuidv4()}
+            docs={doc}
+            pageID={docs.id}
+            sectionIndex={i}
+            moderator={moderator}
+          />
+        ))}
         {currentUser && (admin || moderator) ? <SectionSkeleton /> : null}
       </div>
     </>

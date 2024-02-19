@@ -7,6 +7,7 @@ import { useDocs } from "../../../context/docContext";
 import NavLink from "./navLink";
 import { useAuth } from "../../../context/authContext";
 import right_arrow_icon from "../../../assets/right-arrow.png";
+import { useTraining } from "../../../context/trainingContext";
 
 const variants = {
   open: { transform: "rotate(90deg)" },
@@ -15,6 +16,7 @@ const variants = {
 
 const Nav = () => {
   const { docNames, manualNames } = useDocs();
+  const { moduleNames } = useTraining();
   const { admin } = useAuth();
 
   const [openDocs, setOpenDocs] = useState(false);
@@ -140,21 +142,18 @@ const Nav = () => {
         </h6>
         {openTraining ? (
           <>
+            {moduleNames.map((name) => (
+              <NavLink
+                name={name}
+                type="training"
+                link={`/training/${name}`}
+                key={uuidv4()}
+              />
+            ))}
             <NavLink
-              name="part-135"
-              type="training"
-              link="/training/part-135"
-            />
-            <NavLink
-              name="part-145"
-              type="training"
-              link="/training/part-145"
-            />
-            <NavLink name="fuel" type="training" link="/training/fuel" />
-            <NavLink
-              name="Human-Factors"
-              type="training"
-              link="/training/human-factors"
+              name="Create"
+              type="create-quiz"
+              link="/training/createQuiz"
             />
           </>
         ) : null}

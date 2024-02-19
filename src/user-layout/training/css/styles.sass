@@ -1,0 +1,435 @@
+@import "../../../css-variables/variables.sass"
+
+
+.create-quiz-module-container
+    width: 100%
+    margin-top: 75px
+    height: 95vh
+    display: flex
+    justify-content: center
+
+    .container
+        width: 98%
+        height: 50%
+        box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+        -webkit-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+        -moz-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+        margin: 10px 0 0 0
+        border-radius: 15px
+        background-color: white
+        display: flex
+        flex-direction: column
+        justify-content: space-around
+        padding: 0 25px
+
+        .title-container
+            border-bottom: 1px solid $secondary-color
+            width: 25%
+            
+            h2 
+                margin: 5px 0 5px 10px
+                color: $main-color
+
+        .module-name
+            width: 20%
+
+        .submit-module
+            width: 150px
+
+.training-container
+    width: 100%
+    margin-top: 75px
+    display: flex
+    justify-content: center
+    flex-direction: column
+    align-items: center
+    gap: 10px
+
+    .trainingCourse
+        width: 98%
+        box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+        -webkit-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+        -moz-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+        border-radius: 15px
+        background: white
+        display: flex
+        justify-content: space-between
+        align-items: center
+        height: 8vh
+
+        .title-container,
+        .review-container,
+        .takeTest-container
+            width: 25%
+            text-align: center
+            border-right: 1px solid $secondary-color
+            height: 50%
+            display: flex
+            justify-content: center
+            align-items: center
+            color: $secondary-color
+            font-size: 20px
+            font-weight: 600
+
+            button
+                font-size: 18px
+                width: 50%
+                border: none
+                border: 0.5px solid $secondary-color
+                padding: 5px
+                border-radius: 2.5px
+                cursor: pointer
+                color: $secondary-color
+                transition: ease-in-out .2s
+                background: white
+
+                &:hover
+                    color: white
+                    background: $secondary-color
+
+        .review-container,
+        .takeTest-container
+            justify-content: space-around
+
+        .title-container
+            width: 50%
+
+        .takeTest-container
+            border: none
+        img 
+            width: 34px
+            height: 34px
+
+    .info-container
+        display: flex
+        width: 100%
+        justify-content: space-between
+
+        .recentTraining-container
+            width: 65%
+            box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+            -webkit-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+            -moz-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+            border-radius: 15px
+            background: white
+            height: 45vh
+            margin: 10px
+            position: relative
+            overflow-y: hidden
+
+            .loadingScores
+                position: absolute
+                top: 50%
+                left: 50%
+                transform: translate(-50%, -50%)
+
+            .title
+                margin: 20px 20px
+
+            .score-data
+                max-height: 45vh
+                border-radius: 15px
+                box-shadow: none
+                padding: 0 30px
+
+                .category
+                    color: $main-color
+                    font-size: 18px
+                    font-weight: 700
+
+                .name,
+                .date,
+                .score
+                    font-size: 16px
+                    font-weight: 550
+                    color: $main-color
+                
+                .score-container
+                    width: 30%
+                    text-align: center
+                    border-radius: 5px
+                    color: white
+                    padding: 2px
+                    
+
+                &::-webkit-scrollbar
+                    background: #fff
+                    border-radius: 15px
+
+
+            .no-content
+                position: absolute
+                top: 50%
+                left: 50%
+                transform: translate(-50%, -50%)
+                font-size: 22px
+                color: $main-color
+
+            .title 
+                color: $main-color
+
+
+        .trainingDue
+            padding: 15px
+            width: 35%
+            box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+            -webkit-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+            -moz-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+            border-radius: 15px
+            background: white
+            height: 45vh
+            margin: 10px
+            position: relative
+            display: flex
+            flex-direction: column
+            align-items: center
+
+            .quizDue-container
+                display: flex
+                width: 90%
+                justify-self: center
+                border: 2px solid $main-color
+                border-radius: 7.5px
+                margin: 5px 0
+
+                .quizDue
+                    display: flex
+                    width: 100%
+                    justify-content: space-between
+
+                    h2 
+                        font-size: 18px
+                        text-align: center
+                        align-self: center
+                        margin: 0 0 0 5px
+                        color: $main-color
+
+                    .startQuiz
+                        height: 3vh
+                        margin: 10px
+                        width: 25%
+                        padding: 5px
+                        text-transform: capitalize
+                        font-size: 15px
+                        background-color: $main-color
+
+
+            .no-content
+                position: absolute
+                top: 50%
+                left: 50%
+                transform: translate(-50%, -50%)
+                font-size: 22px
+                color: $main-color
+
+
+            .title
+                align-self: flex-start
+                color: $main-color
+                text-transform: capitalize
+                margin: 0 0 25px 0
+
+.createQuiz
+    width: 98%
+    box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+    -webkit-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+    -moz-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+    border-radius: 15px
+    background: white
+    display: flex
+    justify-content: center
+    align-items: center
+    height: 8vh
+
+    &:hover
+        border: 2px solid $secondary-color
+
+    img 
+        width: 44px
+        height: 44px
+        cursor: pointer
+
+.create-quiz-modal
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+
+    .title-container
+        border-bottom: 1px solid $main-color
+        width: 100%
+        text-align: center
+        padding: 20px 0
+
+        h1 
+            font-size: 25px
+            color: $main-color
+
+    .quizName-container
+        width: 100%
+        display: flex
+        gap: 10px
+        padding: 25px 0
+        flex-wrap: wrap
+
+        .questionTab
+            border: 1px solid $secondary-color
+            display: flex
+            justify-content: center
+            align-items: center
+            padding: 15px
+            border-radius: 5px
+            cursor: pointer
+            color: $secondary-color
+            height: 40px
+
+        .quizName-input
+            height: 5px !important
+         
+        .create-question
+            border: 1px solid $secondary-color
+            display: flex
+            justify-content: center
+            align-items: center
+            padding: 15px
+            border-radius: 5px
+            cursor: pointer
+            height: 40px
+
+            h5
+                color: $secondary-color
+
+            img 
+                width: 24px
+                height: 24px
+                margin: 0 5px
+
+    .create-question-container
+        border-top: 1px solid $main-color
+        border-bottom: 1px solid $main-color
+        padding: 25px 0
+        width: 100%
+
+        h6 
+            margin: 20px 0
+            font-size: 16px
+            color: $main-color
+
+        .answer-container
+            width: 100%
+
+            .answer-1,
+            .answer-2,
+            .answer-3,
+            .answer-4 
+                .answer
+                    width: 95%
+
+        .question-input
+            width: 100%
+
+        .button-container
+            margin: 25px 0
+            display: flex
+            gap: 15px
+
+            .add
+                &:hover
+                    background: $secondary-color
+                    color: white
+
+            .delete 
+                color: tomato
+                border-color: tomato 
+
+                &:hover
+                    background: tomato
+                    color: white
+
+    .attach-document-container
+        width: 100%
+        padding: 20px 0
+        display: flex
+        flex-direction: column
+        gap: 10px
+
+        h6 
+            font-size: 16px
+            color: $main-color
+        .create-quiz-button-container
+            display: flex
+            gap: 20px
+
+            .cancel
+                background: tomato
+
+
+        .select-document
+            width: 100%
+
+.test-container
+    display: flex
+    justify-content: center
+    align-items: center   
+    margin-top: 75px 
+    height: 98vh     
+
+    .test-modal
+        width: 75%
+        height: 75%
+        background: white   
+        box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+        -webkit-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+        -moz-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+        border-radius: 15px
+        display: flex
+        justify-content: space-evenly
+        flex-direction: column
+        align-items: center
+
+        h4 
+            color: $main-color
+
+        .header
+            color: $main-color
+            border-bottom: 1px solid $main-color
+            width: 75%
+            text-align: center
+            padding: 15px
+            position: relative
+
+            .question-counter
+                position: absolute
+                right: 0
+                bottom: 0
+                border: 1px solid $secondary-color
+                border-radius: 5px
+                padding: 3px 10px
+                margin: 0 0 10px 0
+                box-shadow: 6px 6px 7px -1px rgba(158,158,158,0.92)
+                -webkit-box-shadow: 6px 6px 7px -1px rgba(158,158,158,0.92)
+                -moz-box-shadow: 6px 6px 7px -1px rgba(158,158,158,0.92)
+                font-weight: 600
+                color: $secondary-color
+
+        h3
+            width: 75%
+            color: $main-color
+
+        .questions-container
+            width: 75%
+            .question
+                width: 100%
+                display: flex
+                align-items: center
+        .button-container
+            width: 75%
+            display: flex
+            justify-content: right
+
+
+
+
+
+
+    

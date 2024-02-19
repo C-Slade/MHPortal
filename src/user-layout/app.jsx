@@ -2,16 +2,20 @@ import React, { useEffect } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Login from "../login/login.jsx";
 import Dashboard from "./main/dashboard/dashboard.jsx";
+import CreateTrainingModule from "./training/CreateTrainingModule.jsx.jsx";
 import { v4 as uuidv4 } from "uuid";
 import Nav from "./components/nav/nav.jsx";
 import SmallNav from "./components/nav/smallNav/nav.jsx";
 import Register from "../login/register.jsx";
 import ForgotPass from "../login/forgotPass.jsx";
+import Test from "./training/components/test.jsx";
 import "./css/styles.css";
 import ExpiredRegister from "../login/expiredRegister.jsx";
+import TrainingRoute from "./training/trainingRoute.jsx";
 import { useDocs } from "../context/docContext.js";
 import { AnimatePresence } from "framer-motion";
 import { useAuth } from "../context/authContext.js";
+import { useTraining } from "../context/trainingContext.js";
 import DocRoute from "./docs/docRoute.jsx";
 import Header from "./components/header/header.jsx";
 import CreateDocRoute from "./docs/createDocRoute.jsx";
@@ -29,6 +33,7 @@ function App() {
     admin,
     fetchingRegisterKey,
   } = useAuth();
+  const { trainingModules } = useTraining();
   const { alert, alertWarning } = useApp();
   const { allDocs, uploadingNewLayout, loadingFIle, docNames, allManuals } =
     useDocs();
@@ -137,10 +142,24 @@ function App() {
                     />
                   </>
                 ) : null}
-                <Route path="/training/part-135" element={<Dashboard />} />
-                <Route path="/training/part-145" element={<Dashboard />} />
-                <Route path="/training/fuel" element={<Dashboard />} />
-                <Route path="/training/human-factors" element={<Dashboard />} />
+                {trainingModules.modules ? (
+                  <>
+                    {trainingModules.modules.map((module) => (
+                      <Route
+                        path={`/training/${module.name}`}
+                        key={uuidv4()}
+                        element={<TrainingRoute module={module} />}
+                      />
+                    ))}
+                  </>
+                ) : null}
+                <Route path="/training/:id/:id/test/:id" element={<Test />} />
+                {admin ? (
+                  <Route
+                    path="/training/createQuiz"
+                    element={<CreateTrainingModule />}
+                  />
+                ) : null}
                 <Route path="/:id/:id/view/:id" element={<PDFviewer />} />
               </>
             )}

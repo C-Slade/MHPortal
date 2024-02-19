@@ -9,6 +9,7 @@ import account_Icon from "../../../assets/profile.png";
 import logout_Icon from "../../../assets/logout.png";
 import bug_Icon from "../../../assets/ladybug.png";
 import createFolder_icon from "../../../assets/add-folder.png";
+import createQuiz_icon from "../../../assets/data.png";
 import { useAuth } from "../../../context/authContext";
 
 const NavLink = ({ name, type, link }) => {
@@ -25,6 +26,7 @@ const NavLink = ({ name, type, link }) => {
     if (type === "signout") return logout_Icon;
     if (type === "bug") return bug_Icon;
     if (type === "create-folder") return createFolder_icon;
+    if (type === "create-quiz") return createQuiz_icon;
   };
 
   const handleLink = async () => {
@@ -36,7 +38,11 @@ const NavLink = ({ name, type, link }) => {
   return (
     <div className="nav-link-container" ref={navRef} onClick={handleLink}>
       <Link to={link}>
-        <img src={getIcon()} alt="Link" />
+        <img
+          src={getIcon()}
+          alt="Link"
+          style={type === "create-quiz" ? { marginLeft: "2px" } : null}
+        />
         <h4>{name.replace(/-/g, " ")}</h4>
       </Link>
     </div>

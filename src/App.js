@@ -1,11 +1,14 @@
 import UserLayout from "./user-layout/app.jsx";
 import { DocProvider } from "./context/docContext";
+import { TrainingProvider } from "./context/trainingContext";
 
 function App() {
   return (
     <>
       <DocProvider>
-        <UserLayout />
+        <TrainingProvider>
+          <UserLayout />
+        </TrainingProvider>
       </DocProvider>
     </>
   );
