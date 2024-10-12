@@ -6,10 +6,12 @@ import TextField from "@mui/material/TextField";
 import create_icon from "../../../assets/pencil.png";
 import Radio from "@mui/material/Radio";
 import InputLabel from "@mui/material/InputLabel";
+import CircularProgress from "@mui/material/CircularProgress";
 import MenuItem from "@mui/material/MenuItem";
-import ListSubheader from "@mui/material/ListSubheader";
+import { collectionData } from "../../../firebase.js";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import PublishIcon from "@mui/icons-material/Publish";
-import upload from "../../../assets/upload.png";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import LoadingButton from "@mui/lab/LoadingButton";
 import FormControl from "@mui/material/FormControl";
 import { v4 as uuidv4 } from "uuid";
@@ -20,6 +22,10 @@ import "../css/styles.css";
 import { useTraining } from "../../../context/trainingContext";
 import { useLocation } from "react-router-dom";
 import { useApp } from "../../../context/appContext";
+import { motion } from "framer-motion";
+import { RotatingLines } from "react-loader-spinner";
+import ListSubheader from "@mui/material/ListSubheader";
+import attention_icon from "../../../assets/attention.png";
 
 const style = {
   position: "absolute",
@@ -35,16 +41,23 @@ const style = {
   pb: 3,
 };
 
-function CreateQuiz() {
+function CreateQuiz({ editMode, course, moduleID }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="createQuiz">
-      <img
-        src={add_icon}
-        alt="add_icon"
-        className="openModal"
-        onClick={() => setOpen(true)}
-      />
+    <div className={editMode ? "editQuiz" : "createQuiz"}>
+      {editMode ? (
+        <Button onClick={() => setOpen(true)} size="small" variant="contained">
+          Edit
+        </Button>
+      ) : (
+        <img
+          src={add_icon}
+          alt="add_icon"
+          className="openModal"
+          onClick={() => setOpen(true)}
+        />
+      )}
+
       <Modal
         open={open}
         className="add-course"
@@ -52,14 +65,131 @@ function CreateQuiz() {
         aria-describedby="parent-modal-description"
       >
         <Box sx={{ ...style, width: "60%" }} className="create-quiz-container">
-          <ChildModal closeModal={() => setOpen(false)} />
+          <ChildModal
+            closeModal={() => setOpen(false)}
+            course={course}
+            editMode={editMode}
+            moduleID={moduleID}
+          />
         </Box>
       </Modal>
     </div>
   );
 }
 
-function ChildModal({ closeModal }) {
+function DeleteQuiz({ editMode, moduleID, course }) {
+  const [open, setOpen] = useState(false);
+  const [deletingQuiz, setDeletingQuiz] = useState(false);
+  const { alertSuccess } = useApp();
+  const { getRecentTrainingForModule } = useTraining();
+
+  const removeQuiz = async () => {
+    setDeletingQuiz(true);
+    const docRef = doc(collectionData, "training", "training");
+    const scoreRef = doc(collectionData, "training", "scores");
+    const scoreSnap = await getDoc(scoreRef);
+    const docSnap = await getDoc(docRef);
+    const data = docSnap.data();
+    const scoreData = scoreSnap.data();
+
+    const indexOfModule = data.modules.findIndex(
+      (value) => value.moduleID === moduleID
+    );
+
+    const indexOfCourse = data.modules[indexOfModule].courses.findIndex(
+      (value) => value.id === course.id
+    );
+
+    data.modules[indexOfModule].courses.splice(indexOfCourse, 1);
+
+    const indexOfScoreModule = scoreData.modules.findIndex(
+      (value) => value.moduleID === moduleID
+    );
+
+    const indexOfScoreCourse = scoreData.modules[
+      indexOfScoreModule
+    ].courses.findIndex((value) => value.id === course.id);
+
+    scoreData.modules[indexOfScoreModule].courses.splice(indexOfScoreCourse, 1);
+
+    await updateDoc(docRef, data);
+    await updateDoc(scoreRef, scoreData);
+
+    getRecentTrainingForModule();
+    alertSuccess("Quiz has been successfully been deleted");
+    setDeletingQuiz(false);
+  };
+  return (
+    <>
+      <LoadingButton
+        onClick={() => setOpen(true)}
+        size="small"
+        variant="contained"
+        className="deleteQuiz"
+        startIcon={<DeleteForeverIcon />}
+        loading={deletingQuiz}
+      >
+        <span>Delete Quiz</span>
+      </LoadingButton>
+      <Modal
+        open={open}
+        className="add-course"
+        aria-labelledby="parent-modal-title"
+        aria-describedby="parent-modal-description"
+      >
+        <Box sx={{ ...style }} className="delete-quiz-container">
+          <DeleteQuizModal
+            closeModal={() => setOpen(false)}
+            removeQuiz={removeQuiz}
+            deleteQuiz={deletingQuiz}
+          />
+        </Box>
+      </Modal>
+    </>
+  );
+}
+
+const variants = {
+  open: { opacity: 1, transform: "scale(1)" },
+  closed: { opacity: 0, transform: "scale(0)" },
+};
+
+function DeleteQuizModal({ closeModal, removeQuiz, deleteQuiz }) {
+  return (
+    <>
+      <div className="deleteQuiz-modal">
+        {deleteQuiz ? (
+          <Box className="loading-container">
+            <CircularProgress />
+          </Box>
+        ) : (
+          <motion.div animate={"open"} exit={"closed"}>
+            <h3>Are you sure you want to delete this quiz?</h3>
+            <div className="button-container">
+              <Button
+                size="small"
+                variant="contained"
+                className="deleteQuiz"
+                onClick={() => removeQuiz()}
+              >
+                Delete
+              </Button>
+              <Button
+                onClick={() => closeModal()}
+                size="small"
+                variant="contained"
+              >
+                Cancel
+              </Button>
+            </div>
+          </motion.div>
+        )}
+      </div>
+    </>
+  );
+}
+
+function ChildModal({ closeModal, course, editMode, moduleID }) {
   const [quizName, setQuizName] = useState("");
   const [uploadingQuiz, setUpload] = useState(false);
   const [questions, setQuestions] = useState([]);
@@ -72,16 +202,44 @@ function ChildModal({ closeModal }) {
   const [answerTwo, setAnswerTwo] = useState("");
   const [answerThree, setAnswerThree] = useState("");
   const [answerFour, setAnswerFour] = useState("");
+  const [questionInputError, setQuestionInputError] = useState(false);
+  const [quizNameInputError, setQuizNameInputError] = useState(false);
+  const [errorHelper, setErrorHelper] = useState("");
 
   const { alertSuccess } = useApp();
-  const { uploadQuiz, trainingModules } = useTraining();
+  const { uploadQuiz, getRecentTrainingForModule, getTrainingDueForModule } =
+    useTraining();
   const location = useLocation();
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };
 
+  useEffect(() => {
+    if (editMode) {
+      setQuestions(course.questions);
+      setDocToAttach(course.reviewDocument);
+      setQuestionToEdit(0);
+      toggleCreateQuestion(false);
+      setQuizName(course.name);
+
+      setQuestion(course.questions[0].question);
+      setAnswerOne(course.questions[0].answers[0].answer);
+      setAnswerTwo(course.questions[0].answers[1].answer);
+      setAnswerThree(course.questions[0].answers[2].answer);
+      setAnswerFour(course.questions[0].answers[3].answer);
+      setSelectedValue(course.questions[0].correctAnswer);
+    }
+  }, []);
+
   const addQuestion = () => {
+    setQuestionInputError(false);
+    if (quizName !== "") {
+      setQuizNameInputError(false);
+      setErrorHelper("");
+    } else {
+      setErrorHelper("Must add name to quiz before saving");
+    }
     if (onCreateQuestionTab) {
       const allQuestions = [
         ...questions,
@@ -146,27 +304,114 @@ function ChildModal({ closeModal }) {
 
   const startUploadingQuiz = async () => {
     setUpload(true);
-    const courseID = uuidv4();
-    const course = {
-      name: quizName,
-      id: courseID,
-      questions: questions,
-      reviewDocument: documentToAttach,
-    };
-    const moduleName = location.pathname
-      .replace("/training/", "")
-      .replace(" ", "-");
-    await uploadQuiz(course, moduleName);
-    setUpload(false);
-    closeModal();
-    alertSuccess("Quiz has been uploaded");
+    if (questions.length > 0) setQuestionInputError(false);
+    if (quizName !== "") setQuizNameInputError(false);
+    if (questions.length === 0) {
+      setQuestionInputError(true);
+      setErrorHelper("Must add at least one question to quiz");
+      setUpload(false);
+      return;
+    } else if (quizName === "") {
+      setErrorHelper("Must add name to quiz before saving");
+      setUpload(false);
+      setQuizNameInputError(true);
+      return;
+    }
+    if (editMode) {
+      const docRef = doc(collectionData, "training", "training");
+      const scoreRef = doc(collectionData, "training", "scores");
+      const docSnap = await getDoc(docRef);
+      const scoreSnap = await getDoc(scoreRef);
+      const scoreData = scoreSnap.data();
+      const data = docSnap.data();
+      const currentCourseID = course.id;
+
+      const indexOfModule = data.modules.findIndex(
+        (value) => value.moduleID === moduleID
+      );
+
+      const indexOfCourse = data.modules[indexOfModule].courses.findIndex(
+        (value) => value.id === course.id
+      );
+
+      const docToAttach =
+        documentToAttach === undefined ? {} : documentToAttach;
+
+      data.modules[indexOfModule].courses[indexOfCourse] = {
+        name: quizName,
+        id: currentCourseID,
+        questions: questions,
+        reviewDocument: docToAttach,
+      };
+
+      const indexOfScoreModule = scoreData.modules.findIndex(
+        (value) => value.moduleID === moduleID
+      );
+
+      const indexOfScoreCourse = scoreData.modules[
+        indexOfScoreModule
+      ].courses.findIndex((value) => value.id === course.id);
+
+      const scores =
+        scoreData.modules[indexOfScoreModule].courses[indexOfScoreCourse]
+          .scores;
+
+      scoreData.modules[indexOfScoreModule].courses[indexOfScoreCourse] = {
+        name: quizName,
+        id: currentCourseID,
+        questions: questions,
+        scores: scores,
+      };
+
+      await updateDoc(docRef, data);
+      await updateDoc(scoreRef, scoreData);
+      getRecentTrainingForModule();
+      getTrainingDueForModule();
+      setUpload(false);
+      closeModal();
+      alertSuccess("Quiz has been updated");
+    } else {
+      if (quizName === "") {
+        setQuizNameInputError(true);
+        setUpload(false);
+        return;
+      } else {
+        setQuizNameInputError(false);
+      }
+      if (questions.length === 0) {
+        setQuestionInputError(true);
+        setErrorHelper("Must save at least one question to quiz");
+        setUpload(false);
+      } else {
+        const courseID = uuidv4();
+
+        const course = {
+          name: quizName,
+          id: courseID,
+          questions: questions,
+          reviewDocument: {},
+        };
+
+        if (documentToAttach !== undefined) {
+          course.reviewDocument = documentToAttach;
+        }
+        const moduleName = location.pathname
+          .replace("/training/", "")
+          .replace(" ", "-");
+        await uploadQuiz(course, moduleName);
+        getTrainingDueForModule();
+        setUpload(false);
+        closeModal();
+        alertSuccess("Quiz has been uploaded");
+      }
+    }
   };
 
   return (
     <>
       <div className="create-quiz-modal">
         <div className="title-container">
-          <h1>Create New Quiz</h1>
+          <h1>{editMode ? "Edit Quiz" : "Create New Quiz"}</h1>
         </div>
         <div className="quizName-container">
           <TextField
@@ -174,6 +419,8 @@ function ChildModal({ closeModal }) {
             label="Quiz Name"
             variant="outlined"
             size="small"
+            error={quizNameInputError}
+            value={quizName === undefined ? "" : quizName}
             onChange={(e) => setQuizName(e.target.value)}
           />
           {questions.map((question, i) => (
@@ -209,6 +456,7 @@ function ChildModal({ closeModal }) {
             label="Question"
             variant="outlined"
             size="small"
+            error={questionInputError}
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
           />
@@ -300,11 +548,18 @@ function ChildModal({ closeModal }) {
                 Delete Question
               </Button>
             </div>
+            {questionInputError || quizNameInputError ? (
+              <ErrorHelper error={errorHelper} />
+            ) : null}
           </div>
         </div>
         <div className="attach-document-container">
           <h6>Attach document to review for this quiz</h6>
-          <SelectCourse setDocToQuiz={setDocToAttach} />
+          <SelectCourse
+            setDocToQuiz={setDocToAttach}
+            editMode={editMode}
+            document={editMode ? course.reviewDocument : null}
+          />
           <div className="create-quiz-button-container">
             <LoadingButton
               loading={uploadingQuiz}
@@ -315,7 +570,7 @@ function ChildModal({ closeModal }) {
               size="medium"
               onClick={startUploadingQuiz}
             >
-              <span>Upload Quiz</span>
+              <span>{editMode ? "Save Quiz" : "Upload Quiz"}</span>
             </LoadingButton>
             <Button
               className="cancel"
@@ -325,6 +580,13 @@ function ChildModal({ closeModal }) {
             >
               Cancel
             </Button>
+            {editMode ? (
+              <DeleteQuiz
+                editMode={editMode}
+                moduleID={moduleID}
+                course={course}
+              />
+            ) : null}
           </div>
         </div>
       </div>
@@ -332,11 +594,12 @@ function ChildModal({ closeModal }) {
   );
 }
 
-const SelectCourse = ({ setDocToQuiz }) => {
+const SelectCourse = ({ setDocToQuiz, editMode, document }) => {
   const { allDocs, allManuals } = useDocs();
   const [doc, setDoc] = useState("");
   const [open, setOpen] = useState(false);
   const [documentsToAttach, setDocsToAttach] = useState([]);
+  const [documentSections, setDocumentSections] = useState([]);
 
   const renderDocOptions = () => {
     const docs = [];
@@ -347,7 +610,9 @@ const SelectCourse = ({ setDocToQuiz }) => {
         for (let index = 0; index < sections.length; index++) {
           const docsToPush = sections[index].docs.map((doc) => doc);
           for (let index = 0; index < docsToPush.length; index++) {
-            docs.push(docsToPush[index]);
+            const obj = docsToPush[index];
+            obj.section = key;
+            docs.push(obj);
           }
         }
       }
@@ -358,13 +623,26 @@ const SelectCourse = ({ setDocToQuiz }) => {
         for (let index = 0; index < sections.length; index++) {
           const docsToPush = sections[index].docs.map((doc) => doc);
           for (let index = 0; index < docsToPush.length; index++) {
-            docs.push(docsToPush[index]);
+            const obj = docsToPush[index];
+            obj.section = key;
+            docs.push(obj);
           }
         }
       }
     }
 
+    const groupingQuizzes = [...new Set(docs.map((doc) => doc.section))];
+
+    setDocumentSections(groupingQuizzes);
     setDocsToAttach(docs);
+
+    if (editMode && document) {
+      const indexOfDocument = docs.findIndex(
+        (value) => value.name === document.name
+      );
+
+      setDoc(indexOfDocument);
+    }
   };
 
   useEffect(() => {
@@ -387,7 +665,9 @@ const SelectCourse = ({ setDocToQuiz }) => {
     <>
       <div className="select-document">
         <FormControl sx={{ m: 1, minWidth: "50%" }}>
-          <InputLabel id="demo-controlled-open-select-label">Age</InputLabel>
+          <InputLabel id="demo-controlled-open-select-label">
+            Document
+          </InputLabel>
           <Select
             labelId="demo-controlled-open-select-label"
             id="demo-controlled-open-select"
@@ -395,7 +675,7 @@ const SelectCourse = ({ setDocToQuiz }) => {
             onClose={handleClose}
             onOpen={handleOpen}
             value={doc}
-            label="Age"
+            label="Document"
             onChange={handleChange}
           >
             <MenuItem value="">
@@ -403,7 +683,13 @@ const SelectCourse = ({ setDocToQuiz }) => {
             </MenuItem>
             {documentsToAttach.map((document, i) => (
               <MenuItem value={i} key={uuidv4()}>
-                {document.name}
+                <p>
+                  {document.name}
+                  <span style={{ fontSize: "12px" }}>
+                    {" "}
+                    - {document.section.replaceAll("-", " ")}
+                  </span>
+                </p>
               </MenuItem>
             ))}
           </Select>
@@ -412,5 +698,20 @@ const SelectCourse = ({ setDocToQuiz }) => {
     </>
   );
 };
+
+const ErrorHelper = ({ error }) => {
+  return (
+    <div className="quiz-errorHelper">
+      <img src={attention_icon} alt="error" />
+      <h4>{error}</h4>
+    </div>
+  );
+};
+
+function MyListSubheader({ ListSubheaderProps }) {
+  return <ListSubheader {...ListSubheaderProps} />;
+}
+
+MyListSubheader.muiSkipListHighlight = true;
 
 export default CreateQuiz;

@@ -42,11 +42,20 @@ const Nav = () => {
       </div>
       <div className="main-menu section">
         <NavLink name="dashboard" type="dashboard" link="/dashboard" />
-        <NavLink
-          name="notifications"
-          type="notifications"
-          link="/notifications"
-        />
+        {admin ? (
+          <NavLink
+            name="manage users"
+            type="manage-users"
+            link="/manage-users"
+          />
+        ) : null}
+        {admin ? (
+          <NavLink
+            name="test results"
+            type="test-results"
+            link="/test-results"
+          />
+        ) : null}
       </div>
       <div className="docs section">
         <h6
@@ -150,23 +159,20 @@ const Nav = () => {
                 key={uuidv4()}
               />
             ))}
-            <NavLink
-              name="Create"
-              type="create-quiz"
-              link="/training/createQuiz"
-            />
+            {admin ? (
+              <NavLink
+                name="Create"
+                type="create-quiz"
+                link="/training/createQuiz"
+              />
+            ) : null}
           </>
         ) : null}
       </div>
       <div className="docs section">
         <h6 className="nav-category">General</h6>
-        <NavLink name="settings" type="settings" link="/settings" />
         <NavLink name="account" type="account" link="/account" />
         <NavLink name="Sign-Out" type="signout" link="/login" />
-      </div>
-      <div className="docs section">
-        <h6 className="nav-category">Help</h6>
-        <NavLink name="report bug" type="bug" link="/report-bug" />
       </div>
     </motion.nav>
   );

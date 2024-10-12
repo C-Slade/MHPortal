@@ -30,9 +30,9 @@ export default function Score({ scores }) {
   }));
 
   const getScoreColor = (score) => {
-    if (score >= 90) return { backgroundColor: "#00FF0A" };
-    if (score >= 80) return { backgroundColor: "#BDFF00" };
-    if (score >= 70) return { backgroundColor: "#FFF500" };
+    if (score >= 90) return { backgroundColor: "#10ae20" };
+    if (score >= 80) return { backgroundColor: "#90d40a" };
+    if (score >= 70) return { backgroundColor: "#cdc724" };
     if (score > 60) return { backgroundColor: "#FE9901" };
     if (score <= 60) return { backgroundColor: "#FF2E00" };
   };

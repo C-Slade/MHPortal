@@ -6,9 +6,11 @@ import CreateQuiz from "./components/createQuiz";
 import { v4 as uuidv4 } from "uuid";
 import "./css/styles.css";
 import { useTraining } from "../../context/trainingContext";
+import { useAuth } from "../../context/authContext";
 
 const TrainingRoute = ({ module }) => {
   const { setCurrentModule } = useTraining();
+  const { admin } = useAuth();
   useEffect(() => {
     setCurrentModule(module);
   }, []);
@@ -23,9 +25,12 @@ const TrainingRoute = ({ module }) => {
           key={uuidv4()}
           course={course}
           moduleName={module.name}
+          moduleID={module.moduleID}
+          module={module}
+          setCurrentModule={setCurrentModule}
         />
       ))}
-      <CreateQuiz />
+      {admin ? <CreateQuiz editMode={false} /> : null}
     </div>
   );
 };

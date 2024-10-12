@@ -3,6 +3,7 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import Login from "../login/login.jsx";
 import Dashboard from "./main/dashboard/dashboard.jsx";
 import CreateTrainingModule from "./training/CreateTrainingModule.jsx.jsx";
+import ManageUsers from "./main/manageUsers/manageUsers.jsx";
 import { v4 as uuidv4 } from "uuid";
 import Nav from "./components/nav/nav.jsx";
 import SmallNav from "./components/nav/smallNav/nav.jsx";
@@ -23,6 +24,9 @@ import PageLoader from "./components/loading/pageLoader.jsx";
 import AlertBar from "./components/alert/alert.jsx";
 import { useApp } from "../context/appContext.js";
 import PDFviewer from "./components/pdfViewer/PDF_Viewer.jsx";
+import TestResults from "./main/testResults/testResults.jsx";
+import Account from "./account/account.jsx";
+import Attention from "./components/alert/attention.jsx";
 
 function App() {
   const location = useLocation();
@@ -32,6 +36,7 @@ function App() {
     hasAccessToRegister,
     admin,
     fetchingRegisterKey,
+    firstTimeLogin,
   } = useAuth();
   const { trainingModules } = useTraining();
   const { alert, alertWarning } = useApp();
@@ -76,6 +81,7 @@ function App() {
         {uploadingNewLayout || loadingFIle || fetchingRegisterKey ? (
           <PageLoader />
         ) : null}
+        {firstTimeLogin ? <Attention /> : null}
         {currentUser ? <Header /> : null}
         <AnimatePresence>
           {currentUser ? <Nav key="desktopNav" /> : null}
@@ -88,28 +94,35 @@ function App() {
                 {hasAccessToRegister ? (
                   <Route
                     exact
-                    path={`/${registerKey}/register`}
+                    path={`/${registerKey}/register/:id`}
                     element={<Register />}
                   />
                 ) : null}
                 {!hasAccessToRegister && !fetchingRegisterKey ? (
-                  <Route path="/:id/register" element={<ExpiredRegister />} />
+                  <Route
+                    path="/:id/register/:id"
+                    element={<ExpiredRegister />}
+                  />
                 ) : null}
               </>
             ) : (
               <>
                 <Route exact path="/dashboard" element={<Dashboard />} />
-                <Route exact path="/notifications" element={<Dashboard />} />
+                {admin ? (
+                  <Route exact path="/manage-users" element={<ManageUsers />} />
+                ) : null}
+                {admin ? (
+                  <Route exact path="/test-results" element={<TestResults />} />
+                ) : null}
+
+                <Route exact path="/account" element={<Account />} />
+
                 {allDocs
                   ? Object.keys(allDocs).map((key, i) => (
                       <Route
                         path={`/docs/${key}`}
                         element={
-                          <DocRoute
-                            docs={allDocs[key]}
-                            key={uuidv4()}
-                            title={key}
-                          />
+                          <DocRoute docs={allDocs[key]} key={uuidv4()} />
                         }
                         key={i}
                       />
@@ -120,11 +133,7 @@ function App() {
                       <Route
                         path={`/manuals/${key}`}
                         element={
-                          <DocRoute
-                            docs={allManuals[key]}
-                            key={uuidv4()}
-                            title={key}
-                          />
+                          <DocRoute docs={allManuals[key]} key={uuidv4()} />
                         }
                         key={i}
                       />

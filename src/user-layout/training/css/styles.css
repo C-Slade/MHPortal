@@ -1,3 +1,39 @@
+.delete-quiz-container {
+  height: 15vh;
+  width: 25% !important;
+}
+.delete-quiz-container h3 {
+  text-align: center;
+}
+.delete-quiz-container .deleteQuiz-modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+}
+.delete-quiz-container .deleteQuiz-modal .loading-container {
+  display: flex;
+  justify-content: center;
+}
+.delete-quiz-container .deleteQuiz-modal .loading-container svg {
+  stroke: #152D64;
+}
+.delete-quiz-container .deleteQuiz-modal h3 {
+  color: #152D64;
+}
+.delete-quiz-container .deleteQuiz-modal .button-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin: 10px 0 0 0;
+}
+.delete-quiz-container .deleteQuiz-modal .button-container button {
+  margin: 0 10px;
+}
+.delete-quiz-container .deleteQuiz-modal .button-container .deleteQuiz {
+  background-color: tomato;
+}
+
 .create-quiz-module-container {
   width: 100%;
   margin-top: 75px;
@@ -7,7 +43,7 @@
 }
 .create-quiz-module-container .container {
   width: 98%;
-  height: 50%;
+  height: 35%;
   box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
   -webkit-box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
   -moz-box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
@@ -89,6 +125,13 @@
   color: white;
   background: #466FFD;
 }
+.training-container .trainingCourse .title-container .no-document,
+.training-container .trainingCourse .review-container .no-document,
+.training-container .trainingCourse .takeTest-container .no-document {
+  border: 0.5px solid #6b6b6b;
+  color: #6b6b6b;
+  pointer-events: none;
+}
 .training-container .trainingCourse .review-container,
 .training-container .trainingCourse .takeTest-container {
   justify-content: space-around;
@@ -148,7 +191,7 @@
   color: #152D64;
 }
 .training-container .info-container .recentTraining-container .score-data .score-container {
-  width: 30%;
+  width: 50%;
   text-align: center;
   border-radius: 5px;
   color: white;
@@ -183,6 +226,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-width: none;
 }
 .training-container .info-container .trainingDue .quizDue-container {
   display: flex;
@@ -247,6 +293,19 @@
   width: 44px;
   height: 44px;
   cursor: pointer;
+}
+
+.editQuiz {
+  box-shadow: none;
+  width: 15%;
+  border-right: 1px solid #466FFD;
+  border-radius: 0;
+  display: flex;
+  justify-content: center;
+}
+.editQuiz button {
+  width: 50%;
+  text-transform: capitalize;
 }
 
 .create-quiz-modal {
@@ -344,6 +403,24 @@
   background: tomato;
   color: white;
 }
+.create-quiz-modal .create-question-container .quiz-errorHelper {
+  display: flex;
+  align-items: center;
+  border: 2px solid tomato;
+  padding: 5px;
+  width: -moz-fit-content;
+  width: fit-content;
+  border-radius: 5px;
+}
+.create-quiz-modal .create-question-container .quiz-errorHelper h4 {
+  color: tomato;
+  font-weight: 400;
+}
+.create-quiz-modal .create-question-container .quiz-errorHelper img {
+  width: 20px;
+  height: 20px;
+  margin: 0 5px;
+}
 .create-quiz-modal .attach-document-container {
   width: 100%;
   padding: 20px 0;
@@ -359,11 +436,17 @@
   display: flex;
   gap: 20px;
 }
+.create-quiz-modal .attach-document-container .create-quiz-button-container .deleteQuiz {
+  background: red;
+}
 .create-quiz-modal .attach-document-container .create-quiz-button-container .cancel {
   background: tomato;
 }
 .create-quiz-modal .attach-document-container .select-document {
   width: 100%;
+}
+.create-quiz-modal .attach-document-container .select-document #demo-controlled-open-select .section-name {
+  font-size: 30px;
 }
 
 .test-container {
@@ -427,4 +510,11 @@
   width: 75%;
   display: flex;
   justify-content: right;
+}
+
+@media screen and (max-width: 700px) {
+  .test-modal {
+    width: 98% !important;
+    height: 98vh !important;
+  }
 }/*# sourceMappingURL=styles.css.map */

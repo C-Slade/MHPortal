@@ -9,6 +9,7 @@ import "./css/styles.css";
 import { useDocs } from "../../../../context/docContext";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../../../../context/authContext";
+import { useTraining } from "../../../../context/trainingContext";
 
 const sidebar = {
   open: {
@@ -43,10 +44,9 @@ export const SmallNav = () => {
   const { admin } = useAuth();
   const [isOpen, toggleOpen] = useState(false);
   const [openDocs, setOpenDocs] = useState(false);
-  const [openTraining, setOpenTraining] = useState(false);
   const [openManuals, setOpenManuals] = useState(false);
   const location = useLocation();
-  const { docNames } = useDocs();
+  const { docNames, manualNames } = useDocs();
 
   useEffect(() => {
     toggleOpen(false);
@@ -72,11 +72,6 @@ export const SmallNav = () => {
           </div>
           <div className="main-menu section">
             <NavLink name="dashboard" type="dashboard" link="/dashboard" />
-            <NavLink
-              name="notifications"
-              type="notifications"
-              link="/notifications"
-            />
           </div>
           <div className="docs section">
             <h6
@@ -119,49 +114,44 @@ export const SmallNav = () => {
           <div className="docs section">
             <h6
               className="nav-category"
-              onClick={() => setOpenTraining(!openTraining)}
+              onClick={() => setOpenManuals(!openManuals)}
               style={{ cursor: "pointer" }}
             >
-              Training
+              Manuals
               <span className="drop-down">
                 <motion.img
                   src={right_arrow_icon}
                   alt="open menu"
-                  animate={openTraining ? "open" : "closed"}
+                  animate={openManuals ? "open" : "closed"}
                   variants={variants}
                 />
               </span>
             </h6>
-            {openTraining ? (
+            {openManuals ? (
               <>
-                <NavLink
-                  name="part-135"
-                  type="training"
-                  link="/training/part-135"
-                />
-                <NavLink
-                  name="part-145"
-                  type="training"
-                  link="/training/part-145"
-                />
-                <NavLink name="fuel" type="training" link="/training/fuel" />
-                <NavLink
-                  name="Human-Factors"
-                  type="training"
-                  link="/training/human-factors"
-                />
+                {manualNames
+                  ? manualNames.map((manual, i) => (
+                      <NavLink
+                        name={manual}
+                        key={`${i + manual}`}
+                        type="folder"
+                        link={`/manuals/${manual}`}
+                      />
+                    ))
+                  : null}
+                {admin ? (
+                  <NavLink
+                    name="create"
+                    type="create-folder"
+                    link={`/manuals/createFolder`}
+                  />
+                ) : null}
               </>
             ) : null}
           </div>
           <div className="docs section">
             <h6 className="nav-category">General</h6>
-            <NavLink name="settings" type="settings" link="/settings" />
-            <NavLink name="account" type="account" link="/account" />
             <NavLink name="Sign-Out" type="signout" link="/login" />
-          </div>
-          <div className="docs section">
-            <h6 className="nav-category">Help</h6>
-            <NavLink name="report bug" type="bug" link="/report-bug" />
           </div>
         </motion.div>
         <MenuToggle toggle={() => toggleOpen(!isOpen)} />

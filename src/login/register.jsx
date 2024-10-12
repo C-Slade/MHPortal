@@ -15,21 +15,26 @@ const variants = {
 };
 
 const Register = () => {
-  const { signUpUser, currentUser, signInUser, createUserProfile } = useAuth();
+  const {
+    signUpUser,
+    currentUser,
+    signInUser,
+    createUserProfile,
+    setFirstTimeLogin,
+  } = useAuth();
   const { alertError } = useApp();
   const [isRegistering, setRegister] = useState(false);
 
   const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const attemptSignIn = async () => {
     try {
       await signInUser(email, password);
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
+      setFirstTimeLogin(true);
     } catch (error) {
       let data = JSON.stringify(error);
       let errorCode = JSON.parse(data).code;
@@ -47,11 +52,19 @@ const Register = () => {
     if (password !== confirmPassword) {
       alertError("Passwords do not match");
       return;
-    } else if (password === "" || email === "" || name === "") {
+    } else if (
+      password === "" ||
+      email === "" ||
+      firstName === "" ||
+      lastName === ""
+    ) {
       alertError("All fields required");
       return;
     }
     try {
+      const capFirstName = firstName[0].toUpperCase() + firstName.slice(1);
+      const capLastName = lastName[0].toUpperCase() + lastName.slice(1);
+      const name = `${capFirstName} ${capLastName}`;
       setRegister(true);
       const res = await signUpUser(email, password);
       createUserProfile(res.user.uid, res.user.email, name);
@@ -91,10 +104,22 @@ const Register = () => {
               <h1>Register</h1>
               <div className="input-container">
                 <TextField
-                  label="Name"
+                  label="First Name"
                   variant="outlined"
                   className="login-input register"
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  inputProps={{
+                    autoComplete: "new-password",
+                    form: {
+                      autoComplete: "off",
+                    },
+                  }}
+                />
+                <TextField
+                  label="Last Name"
+                  variant="outlined"
+                  className="login-input register"
+                  onChange={(e) => setLastName(e.target.value)}
                   inputProps={{
                     autoComplete: "new-password",
                     form: {
@@ -143,15 +168,16 @@ const Register = () => {
                   }}
                 />
               </div>
-              <Button
-                variant="contained"
-                onClick={() => {
-                  startRegisterProcess();
-                }}
-              >
-                Register
-              </Button>
             </form>
+            <Button
+              variant="contained"
+              className="registerBtn"
+              onClick={() => {
+                startRegisterProcess();
+              }}
+            >
+              Register
+            </Button>
             <div className="already-member-container">
               <h6>Already a member?</h6>
               <Link to="/login">Sign in</Link>

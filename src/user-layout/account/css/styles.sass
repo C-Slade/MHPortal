@@ -1,0 +1,42 @@
+@import "../../../css-variables/variables"
+
+
+.account-container
+    width: 98%
+    height: 50%
+    box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+    -webkit-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+    -moz-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+    margin: 88px 0 0 0
+    border-radius: 15px
+    background-color: white
+    display: flex
+    flex-direction: column
+    justify-content: space-around
+    padding: 0 25px
+    align-self: center
+    position: relative
+
+    .account-tab-container
+        display: flex
+        align-items: center
+        padding: 15px 0
+        cursor: pointer
+
+        img
+            width: 34px
+            height: 34px
+            margin: 0 5px 0 0
+        h2
+            margin: 0 20px 0 0
+            color: $main-color-light
+
+        .animate-feilds
+            display: flex
+            justify-content: space-between
+
+    .loadingData
+        position: absolute
+        left: 50%
+        top: 50%
+        transform: translate(-50%,-50%)

@@ -4,12 +4,10 @@ import Section from "./components/section";
 import "./css/styles.css";
 import { useAuth } from "../../context/authContext";
 import SectionSkeleton from "./components/sectionSkeleton.jsx";
-import { useDocs } from "../../context/docContext";
 
-const DocRoute = ({ docs, title }) => {
+const DocRoute = ({ docs }) => {
   const [moderator, setModerator] = useState(false);
   const { currentUser, admin } = useAuth();
-  const { allDocs } = useDocs();
 
   useEffect(() => {
     docs.moderators.forEach((moderator) => {

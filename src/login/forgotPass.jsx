@@ -60,10 +60,14 @@ const ForgotPass = () => {
                   />
                   <Link to="/login">Sign in</Link>
                 </div>
-                <Button variant="contained" onClick={handleSubmit}>
-                  Submit
-                </Button>
               </form>
+              <Button
+                variant="contained"
+                className="forgotpassBtn"
+                onClick={handleSubmit}
+              >
+                Submit
+              </Button>
             </div>
           </motion.div>
           {loading ? (

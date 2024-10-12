@@ -1,0 +1,97 @@
+.frequentlyVisited-container {
+  width: 75%;
+  box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
+  -webkit-box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
+  -moz-box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
+  border-radius: 15px;
+  background: white;
+  height: 43vh;
+  margin: 10px;
+  position: relative;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.frequentlyVisited-container div {
+  box-shadow: none;
+}
+.frequentlyVisited-container table,
+.frequentlyVisited-container tr,
+.frequentlyVisited-container td {
+  border: none;
+}
+.frequentlyVisited-container .loadingData {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.frequentlyVisited-container .no-content-frequentlyVisited {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.frequentlyVisited-container h2 {
+  margin: 20px 20px;
+  color: #152D64;
+}
+.frequentlyVisited-container .frequentlyVisited-data {
+  width: 90%;
+  align-self: center;
+  scrollbar-width: none;
+}
+.frequentlyVisited-container .frequentlyVisited-data .name-subHeading,
+.frequentlyVisited-container .frequentlyVisited-data .module-subHeading,
+.frequentlyVisited-container .frequentlyVisited-data .category-subHeading {
+  font-weight: 700;
+  font-size: 18px;
+  color: #152D64;
+}
+.frequentlyVisited-container .frequentlyVisited-data .row-container {
+  border-bottom: 2px solid #0138b0;
+}
+.frequentlyVisited-container .frequentlyVisited-data .row-container .name {
+  font-weight: 700;
+  font-size: 18px;
+  color: #152D64;
+}
+.frequentlyVisited-container .frequentlyVisited-data .row-container .module {
+  font-weight: 500;
+}
+.frequentlyVisited-container .frequentlyVisited-data .row-container .category {
+  font-weight: lighter;
+}
+.frequentlyVisited-container .frequentlyVisited-data .row-container .view-btn {
+  background-color: #152D64;
+  width: 100px;
+  border: none;
+  text-transform: capitalize;
+}
+.frequentlyVisited-container .frequentlyVisited-data .row-container .folder-tb {
+  display: flex;
+  justify-content: center;
+  border: none;
+}
+.frequentlyVisited-container .frequentlyVisited-data .row-container .folder-icon {
+  width: 24px;
+  height: 24px;
+}
+
+@media screen and (max-width: 700px) {
+  .view-btn {
+    width: 100% !important;
+  }
+  .name-subHeading,
+  .module-subHeading,
+  .category-subHeading {
+    display: none !important;
+  }
+  .module,
+  .category {
+    display: none !important;
+  }
+  .name {
+    font-size: 14px !important;
+  }
+}/*# sourceMappingURL=styles.css.map */

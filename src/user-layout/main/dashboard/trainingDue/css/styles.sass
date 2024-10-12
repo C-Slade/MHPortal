@@ -1,0 +1,76 @@
+@import "../../../../../css-variables/variables.sass"
+    
+    
+.trainingDue-container
+    width: 35%
+    box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+    -webkit-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+    -moz-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+    border-radius: 15px
+    background: white
+    height: 43vh
+    margin: 10px
+    display: flex
+    flex-direction: column
+    overflow-y: scroll
+    overflow-x: hidden
+    scrollbar-width: none
+    position: relative
+
+    .no-content
+        position: absolute
+        top: 50%
+        left: 50%
+        transform: translate(-50%, -50%)
+        font-size: 22px
+        color: $main-color
+
+
+    .heading
+        display: flex
+        align-items: center
+        width: 100%
+        margin: 20px 20px
+
+        h2
+            color: $main-color
+            margin: 0 0 0 5px
+        img
+            width: 24px
+            height: 24px
+    
+    .quizLink-container
+        width: 90%
+        display: flex
+        align-items: center
+        justify-content: space-between
+        align-self: center
+        border: 2px solid $main-color
+        border-radius: 7.5px
+        margin: 5px 0
+
+        h4 
+            font-size: 18px
+            text-align: center
+            align-self: center
+            margin: 0 0 0 5px
+            color: $main-color
+        
+        .startQuiz
+            height: 3vh
+            margin: 10px
+            width: 25%
+            padding: 5px
+            text-transform: capitalize
+            font-size: 15px
+            background-color: $main-color
+
+@media screen and (max-width: $tablet-small-breakpoint)
+    .startQuiz
+        width: 40% !important
+        height: 4vh !important
+
+@media screen and (max-width: $laptop-medium-breakpoint)
+    .trainingDue-container
+        display: none !important
+

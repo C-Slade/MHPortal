@@ -1,0 +1,87 @@
+.recentTraining-container {
+  width: 75%;
+  box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
+  -webkit-box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
+  -moz-box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
+  border-radius: 15px;
+  background: white;
+  height: 45vh;
+  margin: 10px;
+  position: relative;
+  overflow-y: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.recentTraining-container .loadingScores {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.recentTraining-container .title {
+  margin: 20px 20px;
+  color: #152D64;
+}
+.recentTraining-container .score-data {
+  max-height: 45vh;
+  border-radius: 15px;
+  box-shadow: none;
+  width: 90%;
+  align-self: center;
+}
+.recentTraining-container .score-data .category {
+  color: #152D64;
+  font-size: 18px;
+  font-weight: 700;
+}
+.recentTraining-container .score-data .score-row {
+  border-bottom: 2px solid #0138b0;
+}
+.recentTraining-container .score-data .name,
+.recentTraining-container .score-data .date,
+.recentTraining-container .score-data .score {
+  font-size: 16px;
+  font-weight: 550;
+  color: #152D64;
+}
+.recentTraining-container .score-data .quiz-tb img {
+  width: 24px;
+  height: 24px;
+}
+.recentTraining-container .score-data .score-container {
+  width: 50%;
+  text-align: center;
+  border-radius: 5px;
+  color: white;
+  padding: 2px;
+}
+.recentTraining-container .score-data::-webkit-scrollbar {
+  background: #fff;
+  border-radius: 15px;
+}
+.recentTraining-container .no-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 22px;
+  color: #152D64;
+}
+.recentTraining-container .title {
+  color: #152D64;
+}
+
+@media screen and (max-width: 820px) {
+  .score-data .name {
+    font-size: 12px !important;
+  }
+  .score-data .date {
+    font-size: 14px !important;
+  }
+  .score-data .score {
+    font-size: 16px !important;
+  }
+  .score-data .score-container {
+    width: 75% !important;
+  }
+}/*# sourceMappingURL=styles.css.map */

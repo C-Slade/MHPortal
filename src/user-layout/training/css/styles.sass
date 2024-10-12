@@ -1,5 +1,39 @@
 @import "../../../css-variables/variables.sass"
 
+.delete-quiz-container
+    height: 15vh   
+    width: 25% !important
+
+    h3
+        text-align: center
+
+    .deleteQuiz-modal
+        display: flex
+        flex-direction: column
+        justify-content: space-around
+        height: 100%
+
+        .loading-container
+            display: flex
+            justify-content: center
+
+            svg
+                stroke: $main-color
+        h3 
+            color: $main-color
+
+        .button-container
+            display: flex
+            width: 100%
+            justify-content: center
+            margin: 10px 0 0 0
+
+            button
+                margin: 0 10px
+
+            .deleteQuiz
+                background-color: tomato
+            
 
 .create-quiz-module-container
     width: 100%
@@ -10,7 +44,7 @@
 
     .container
         width: 98%
-        height: 50%
+        height: 35%
         box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
         -webkit-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
         -moz-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
@@ -87,6 +121,11 @@
                     color: white
                     background: $secondary-color
 
+            .no-document
+                border: 0.5px solid #6b6b6b
+                color: #6b6b6b
+                pointer-events: none
+
         .review-container,
         .takeTest-container
             justify-content: space-around
@@ -145,7 +184,7 @@
                     color: $main-color
                 
                 .score-container
-                    width: 30%
+                    width: 50%
                     text-align: center
                     border-radius: 5px
                     color: white
@@ -183,6 +222,9 @@
             display: flex
             flex-direction: column
             align-items: center
+            overflow-y: scroll
+            overflow-x: hidden
+            scrollbar-width: none
 
             .quizDue-container
                 display: flex
@@ -248,6 +290,18 @@
         width: 44px
         height: 44px
         cursor: pointer
+
+.editQuiz
+    box-shadow: none
+    width: 15%
+    border-right: 1px solid $secondary-color
+    border-radius: 0
+    display: flex
+    justify-content: center
+
+    button
+        width: 50%
+        text-transform: capitalize
 
 .create-quiz-modal
     display: flex
@@ -346,6 +400,23 @@
                     background: tomato
                     color: white
 
+        .quiz-errorHelper
+            display: flex
+            align-items: center
+            border: 2px solid tomato
+            padding: 5px
+            width: fit-content
+            border-radius: 5px
+
+            h4 
+                color: tomato
+                font-weight: 400
+
+            img 
+                width: 20px
+                height: 20px
+                margin: 0 5px
+
     .attach-document-container
         width: 100%
         padding: 20px 0
@@ -360,12 +431,19 @@
             display: flex
             gap: 20px
 
+            .deleteQuiz
+                background: red
+
             .cancel
                 background: tomato
 
 
         .select-document
             width: 100%
+
+            #demo-controlled-open-select
+                .section-name
+                    font-size: 30px
 
 .test-container
     display: flex
@@ -427,8 +505,10 @@
             display: flex
             justify-content: right
 
-
-
+@media screen and (max-width: $tablet-small-breakpoint)
+     .test-modal
+        width: 98% !important
+        height: 98vh !important
 
 
 

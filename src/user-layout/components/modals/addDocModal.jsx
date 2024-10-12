@@ -35,8 +35,8 @@ const style = {
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const variants = {
-  open: { opacity: 1, transform: "scale(1)" },
-  closed: { opacity: 0, transform: "scale(0)" },
+  open: { opacity: 1 },
+  closed: { opacity: 0 },
 };
 
 const metadata = {
@@ -91,7 +91,11 @@ function ChildModal({ handleFiles }) {
         animate={"open"}
         variants={variants}
       >
-        <Button onClick={handleOpen} variant="contained">
+        <Button
+          onClick={handleOpen}
+          className="addDocToSection"
+          variant="contained"
+        >
           Add Document
         </Button>
       </motion.div>
@@ -289,7 +293,7 @@ export default function NestedModal() {
             </Box>
           </motion.div>
           <motion.div
-            className="animated-container"
+            className="animated-container add-section-container"
             animate={!upLoading ? "open" : "closed"}
             exit={"closed"}
             variants={variants}
@@ -304,15 +308,6 @@ export default function NestedModal() {
               Leave the input field empty if you do not want this section to
               have a title*
             </p>
-            <Button
-              variant="contained"
-              onClick={creatingNewPage ? createSection : addSection}
-            >
-              Create Section
-            </Button>
-            <Button variant="contained" color="error" onClick={handleClose}>
-              Cancel
-            </Button>
             <h6>Documents</h6>
             {files.length > 0
               ? files.map((file, index) => (
@@ -333,6 +328,25 @@ export default function NestedModal() {
               : null}
           </motion.div>
           {upLoading ? null : <ChildModal handleFiles={handleFiles} />}
+          {upLoading ? null : (
+            <div className="add-section-button-container">
+              <Button
+                variant="contained"
+                onClick={creatingNewPage ? createSection : addSection}
+                className="create-section-btn"
+              >
+                Create Section
+              </Button>
+              <Button
+                variant="contained"
+                className="cancel-section"
+                color="error"
+                onClick={handleClose}
+              >
+                Cancel
+              </Button>
+            </div>
+          )}
         </Box>
       </Modal>
     </div>

@@ -1,0 +1,76 @@
+@import "../../../../css-variables/variables.sass"
+    
+    
+.test-results-container
+    width: 96%
+    height: 88%
+    box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+    -webkit-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+    -moz-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+    border-radius: 15px
+    background: white
+    margin-top: 90px
+    align-self: center
+    padding: 0 20px
+    position: relative
+    overflow-y: auto
+
+    .loadingData
+        position: absolute
+        left: 50%
+        top: 50%
+        transform: translate(-50%,-50%)
+
+    &::-webkit-scrollbar
+        background: #fff
+        border-radius: 15px
+
+    .selection-container
+        display: flex
+        width: 100%
+        justify-content: space-between
+        margin: 25px 0
+
+        .selection
+            width: 30%
+    
+    .table-container
+        border: 1px solid #868686
+        min-height: 85%
+        border-radius: 15px
+        margin: 0 0 20px 0
+        text-transform: capitalize
+
+        .header
+            display: flex
+            width: 100%
+            border-bottom: 2px solid black
+            padding: 0 0 0 5%
+
+            .helper-container
+                width: 25%
+                padding: 15px
+
+        .row-container
+            display: flex
+            width: 100%
+            border-bottom: 2px solid black
+            padding: 0 0 0 5%
+
+            h4,h3 
+                color: $main-color 
+
+            .info-container
+                width: 25%
+                padding: 15px
+
+                .score-color-container
+                    width: 25%
+                    text-align: center
+                    color: white
+                    border-radius: 5px
+
+
+            &:last-child
+                border: none !important
+                

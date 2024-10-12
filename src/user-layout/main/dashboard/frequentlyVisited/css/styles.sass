@@ -1,0 +1,103 @@
+@import "../../../../../css-variables/variables.sass"
+
+.frequentlyVisited-container
+    width: 75%
+    box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+    -webkit-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+    -moz-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+    border-radius: 15px
+    background: white
+    height: 43vh
+    margin: 10px
+    position: relative
+    overflow-y: hidden
+    display: flex
+    flex-direction: column
+
+
+    div
+        box-shadow: none
+
+    table,
+    tr,
+    td
+        border: none
+
+    .loadingData 
+        position: absolute
+        left: 50%
+        top: 50%
+        transform: translate(-50%,-50%)
+
+    .no-content-frequentlyVisited
+        position: absolute
+        left: 50%
+        top: 50%
+        transform: translate(-50%,-50%)
+
+    h2
+        margin: 20px 20px
+        color: $main-color
+
+    .frequentlyVisited-data
+        width: 90%
+        align-self: center
+        scrollbar-width: none
+
+        .name-subHeading,
+        .module-subHeading,
+        .category-subHeading
+            font-weight: 700
+            font-size: 18px
+            color: $main-color
+        
+
+        .row-container
+            border-bottom: 2px solid $main-color-light
+
+
+            .name
+                font-weight: 700
+                font-size: 18px
+                color: $main-color
+
+            .module
+                font-weight: 500
+            
+            .category
+                font-weight: lighter
+
+            .view-btn
+                background-color: $main-color
+                width: 100px
+                border: none
+                text-transform: capitalize
+
+            .folder-tb
+                display: flex
+                justify-content: center
+                border: none
+                
+            .folder-icon
+                width: 24px
+                height: 24px
+
+@media screen and (max-width: $tablet-small-breakpoint)
+    .view-btn
+        width: 100% !important
+
+    .name-subHeading,
+    .module-subHeading,
+    .category-subHeading
+        display: none !important
+
+    .module,
+    .category
+        display: none !important
+    .name
+        font-size: 14px !important
+    
+
+
+
+    

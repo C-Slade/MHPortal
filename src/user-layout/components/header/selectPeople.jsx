@@ -25,7 +25,7 @@ const MenuProps = {
 export default function MultipleSelectCheckmarks({ sumbiting }) {
   const [personName, setPersonName] = React.useState([]);
   const [userInfo, setUsers] = React.useState([]);
-  const { users, fetchUser } = useAuth();
+  const { users, currentUserInfo, allUserNames } = useAuth();
   const { alertError } = useApp();
   const { setModeratorNames, getModeratorUids, allDocs, allManuals } =
     useDocs();
@@ -50,15 +50,14 @@ export default function MultipleSelectCheckmarks({ sumbiting }) {
       alertError("The page you are trying to go to no longer exists");
       return;
     }
-    const userNames = [];
 
-    for (let i = 0; i < users.length; i++) {
-      const userData = await fetchUser(users[i]);
-      userNames.push(userData.info.name);
-    }
+    const allUids = await getModeratorUids(allUserNames);
+    const currentUserName = currentUserInfo.info.name;
+    const allUserNamesFiltered = allUserNames.filter(
+      (name) => name !== currentUserName
+    );
 
-    setUsers(userNames);
-    const allUids = await getModeratorUids(userNames);
+    setUsers(allUserNamesFiltered);
     if (currentPage === "createFolder") return;
 
     let pageModerators;

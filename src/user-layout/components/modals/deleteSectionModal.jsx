@@ -83,9 +83,22 @@ export default function NestedModal({ pageID, sectionIndex }) {
             variants={variants}
           >
             <h2>Are you sure you want to delete this section?</h2>
-            <Button variant="contained" onClick={handleDelete}>
-              Delete
-            </Button>
+            <div className="button-container">
+              <Button
+                variant="contained"
+                className="cancel"
+                onClick={handleClose}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                className="delete"
+                onClick={handleDelete}
+              >
+                Delete
+              </Button>
+            </div>
           </motion.div>
         </Box>
       </Modal>

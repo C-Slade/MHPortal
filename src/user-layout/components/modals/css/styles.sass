@@ -1,19 +1,33 @@
 @import "../../../../css-variables/variables.sass"
 
 .addDocModal
+
     .section-modal
         display: flex
         flex-direction: column
         justify-content: space-between
         border-radius: 5px
         border: 2px solid $secondary-color !important
+        width: auto
+
+        .add-section-button-container
+            display: flex
+            width: 100% !important
+            justify-content: space-evenly
+            margin: 40px 0 0 0
+            align-self: center
+
+
+            button
+                width: 48%
 
 
         .animated-add-doc-btn-container
             width: 100%
+            display: flex
 
-            button
-                width: 100%
+            .addDocToSection
+                width: auto
 
         .uploading-animated-container
             position: absolute
@@ -30,17 +44,35 @@
             flex-direction: column
             justify-content: space-between
 
+            #parent-modal-title
+                text-align: center
+
             .Mui-error 
                 color: red
 
+            .button-container
+                width: 75%
+                display: flex
+                justify-content: space-evenly
+                align-self: center
+                
+                .delete
+                    background: $main-color
+
+                .cancel
+                    background: tomato
+                    
+
+
+        .add-section-container
+            .button-container
+                width: 100% 
 
         h6 
             font-size: 1rem
             color: $secondary-color
             margin: 10px 0
-
-        button 
-            margin: 5px 0
+        
 
         h2 
             color: $secondary-color

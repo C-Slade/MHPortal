@@ -28,7 +28,7 @@ export const useDocs = () => {
 
 export const DocProvider = ({ children }) => {
   const navigate = useNavigate();
-  const { currentUser } = useAuth();
+  const { currentUser, deepLink, setDeepLink } = useAuth();
   const { alertError } = useApp();
   const [docNames, setDocNames] = useState([]);
   const [allDocs, setAlldocs] = useState();
@@ -47,6 +47,9 @@ export const DocProvider = ({ children }) => {
   const [queryName, setQueryName] = useState("");
   // used to refresh pdf viewer and get updated file
   const [newDocToPreview, toggleNewDocToPreview] = useState(false);
+  const [currentURL, setCurrentURL] = useState("");
+
+  const [currentDocument, setCurrentDocument] = useState("");
 
   const location = useLocation();
 
@@ -371,9 +374,10 @@ export const DocProvider = ({ children }) => {
 
         let onNewPage = false;
 
-        const removeSpacesName = newPageName.replace(/ /g, "-");
+        const removeSpacesName = newPageName.replaceAll(" ", "-");
+        const removeSpacesDefaultName = defaultPageName.replaceAll(" ", "-");
 
-        if (newPageName !== defaultPageName) {
+        if (removeSpacesName !== removeSpacesDefaultName) {
           for (const key in allDocuments) {
             if (Object.hasOwnProperty.call(allDocuments, key)) {
               if (key === removeSpacesName) {
@@ -405,6 +409,22 @@ export const DocProvider = ({ children }) => {
     });
   };
 
+  const deleteDocCount = (docID) => {
+    return new Promise(async (resolve, reject) => {
+      const docRef = doc(collectionData, "users", `${currentUser.uid}`);
+      const docSnap = await getDoc(docRef);
+      const data = docSnap.data();
+
+      const indexOfDoc = data.docCount.findIndex(
+        (value) => value.docID === docID
+      );
+      data.docCount.splice(indexOfDoc, 1);
+
+      updateDoc(docRef, data);
+      resolve();
+    });
+  };
+
   const deleteDocs = (sectionIndex) => {
     return new Promise(async (resolve, reject) => {
       const docRef = doc(collectionData, `${queryName}`, `${queryName}`);
@@ -414,8 +434,6 @@ export const DocProvider = ({ children }) => {
       querySnapshot.forEach(async (res) => {
         const data = res.data();
         const allDocuments = data;
-
-        console.log(pageName);
 
         if (allDocuments[pageName] === undefined) {
           reject("The page you are trying to edit no longer exists");
@@ -432,6 +450,7 @@ export const DocProvider = ({ children }) => {
         docsArray.forEach(async (doc) => {
           filesToDelete.forEach(async (file) => {
             if (file.path === doc.path) {
+              await deleteDocCount(doc.id);
               const pdfRef = ref(storage, `${file.path}`);
               try {
                 await deleteObject(pdfRef);
@@ -458,6 +477,8 @@ export const DocProvider = ({ children }) => {
     });
   };
 
+  // Also delete DocCount from every user that had the deleted page docs/manuals
+
   const deletePage = async (page) => {
     const docRef = doc(collectionData, `${queryName}`, `${queryName}`);
 
@@ -473,6 +494,7 @@ export const DocProvider = ({ children }) => {
     for (let i = 0; i < sections.length; i++) {
       for (let index = 0; index < sections[i].docs.length; index++) {
         const doc = sections[i].docs[index];
+        await deleteDocCount(doc.id);
         const pdfRef = ref(storage, `${doc.path}`);
 
         await deleteObject(pdfRef)
@@ -539,6 +561,18 @@ export const DocProvider = ({ children }) => {
                 });
             }
           );
+
+          for (let i = 0; i < document[nameOfPage].sections.length; i++) {
+            for (
+              let index = 0;
+              index < document[nameOfPage].sections[i].docs.length;
+              index++
+            ) {
+              await deleteDocCount(
+                document[nameOfPage].sections[i].docs[index].id
+              );
+            }
+          }
 
           let newSections = document[nameOfPage].sections.filter(
             (section, i) => i !== sectionIndex
@@ -609,6 +643,81 @@ export const DocProvider = ({ children }) => {
   const addSectionsToNewPage = (section) => {
     setSections([...sections, section]);
   };
+
+  // These two useEffects are used to allow for users to refresh while viewing a PDF and still be on the same page.
+
+  // They also allow for the user to click a link outside the app and be redirected to the document via url.
+
+  useEffect(() => {
+    if (allDocs !== undefined) {
+      const documentID = deepLink.split("/")[4];
+      Object.keys(allDocs).forEach((key, i) => {
+        allDocs[key].sections.forEach((section) => {
+          section.docs.forEach((doc) => {
+            if (deepLink !== "") {
+              if (deepLink.includes("docs") || deepLink.includes("training")) {
+                if (doc.id === documentID) {
+                  const link = deepLink.split("/");
+                  if (link[2] === "dashboard") {
+                    link[2] = key;
+                  }
+                  const newLink = link.join("/");
+
+                  // when docOnPreview is undefined, is when the app first loads. This allows for the app not to redirect a user to a PDF file they're currently viewing.
+
+                  if (docOnPreview === undefined) {
+                    setQueryName("docs");
+                    setDocOnPreview(doc);
+                    setPdfDocName(doc.name);
+                    setCurrentDocument(doc.id);
+                    toggleLoadingFile(true);
+                    navigate(newLink);
+                    setDeepLink("");
+                  }
+                }
+              }
+            }
+          });
+        });
+      });
+    }
+  }, [allDocs]);
+
+  useEffect(() => {
+    if (allManuals !== undefined) {
+      const documentID = deepLink.split("/")[4];
+      Object.keys(allManuals).forEach((key, i) => {
+        allManuals[key].sections.forEach((section) => {
+          section.docs.forEach((doc) => {
+            if (deepLink !== "") {
+              if (
+                deepLink.includes("manuals") ||
+                deepLink.includes("training")
+              ) {
+                if (doc.id === documentID) {
+                  const link = deepLink.split("/");
+                  if (link[2] === "dashboard") {
+                    link[2] = key;
+                  }
+                  const newLink = link.join("/");
+
+                  if (docOnPreview === undefined) {
+                    setQueryName("manuals");
+                    setDocOnPreview(doc);
+                    setPdfDocName(doc.name);
+                    setCurrentDocument(doc.id);
+                    toggleLoadingFile(true);
+                    navigate(newLink);
+                    setDeepLink("");
+                  }
+                }
+              }
+            }
+          });
+        });
+      });
+    }
+  }, [allManuals]);
 
   useEffect(() => {
     if (currentUser !== undefined) {

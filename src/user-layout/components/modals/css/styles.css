@@ -4,12 +4,24 @@
   justify-content: space-between;
   border-radius: 5px;
   border: 2px solid #466FFD !important;
+  width: auto;
+}
+.addDocModal .section-modal .add-section-button-container {
+  display: flex;
+  width: 100% !important;
+  justify-content: space-evenly;
+  margin: 40px 0 0 0;
+  align-self: center;
+}
+.addDocModal .section-modal .add-section-button-container button {
+  width: 48%;
 }
 .addDocModal .section-modal .animated-add-doc-btn-container {
   width: 100%;
+  display: flex;
 }
-.addDocModal .section-modal .animated-add-doc-btn-container button {
-  width: 100%;
+.addDocModal .section-modal .animated-add-doc-btn-container .addDocToSection {
+  width: auto;
 }
 .addDocModal .section-modal .uploading-animated-container {
   position: absolute;
@@ -26,16 +38,31 @@
   flex-direction: column;
   justify-content: space-between;
 }
+.addDocModal .section-modal .animated-container #parent-modal-title {
+  text-align: center;
+}
 .addDocModal .section-modal .animated-container .Mui-error {
   color: red;
+}
+.addDocModal .section-modal .animated-container .button-container {
+  width: 75%;
+  display: flex;
+  justify-content: space-evenly;
+  align-self: center;
+}
+.addDocModal .section-modal .animated-container .button-container .delete {
+  background: #152D64;
+}
+.addDocModal .section-modal .animated-container .button-container .cancel {
+  background: tomato;
+}
+.addDocModal .section-modal .add-section-container .button-container {
+  width: 100%;
 }
 .addDocModal .section-modal h6 {
   font-size: 1rem;
   color: #466FFD;
   margin: 10px 0;
-}
-.addDocModal .section-modal button {
-  margin: 5px 0;
 }
 .addDocModal .section-modal h2 {
   color: #466FFD;

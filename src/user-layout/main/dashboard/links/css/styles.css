@@ -1,0 +1,91 @@
+.addLink-modal {
+  border-radius: 5px;
+  border: 2px solid #466FFD !important;
+  padding: 30px !important;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.addLink-modal h2 {
+  color: #152D64;
+}
+.addLink-modal .button-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  margin: 15px 0 0 0;
+}
+.addLink-modal .button-container .accept:hover {
+  background: #466FFD;
+  color: white;
+}
+.addLink-modal .button-container .cancel:hover {
+  background: tomato;
+  color: white;
+  border: 1px solid tomato;
+}
+
+.links-container {
+  width: 35%;
+  box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
+  -webkit-box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
+  -moz-box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
+  border-radius: 15px;
+  background: white;
+  height: 45vh;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+.links-container .link-container {
+  display: flex;
+  align-items: center;
+  width: 90%;
+}
+.links-container .link-container .deleteLink {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+.links-container .addLink {
+  width: 90%;
+  display: flex;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 0.5px solid #d2d2d2;
+  margin: 5px 0 0 0;
+  cursor: pointer;
+}
+.links-container .addLink img {
+  width: 22px;
+  height: 22px;
+  margin: 1px;
+}
+.links-container .addLink h4 {
+  color: #152D64;
+}
+.links-container h2 {
+  margin: 20px 20px;
+  color: #152D64;
+  align-self: flex-start;
+}
+.links-container .link {
+  width: 90%;
+  display: flex;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 0.5px solid #d2d2d2;
+  margin: 5px 0 0 0;
+}
+.links-container .link img {
+  width: 24px;
+  height: 24px;
+}/*# sourceMappingURL=styles.css.map */

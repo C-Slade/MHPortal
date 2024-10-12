@@ -20,6 +20,7 @@ export const analytics = getAnalytics(app);
 export const collectionData = getFirestore(app);
 export const auth = getAuth(app);
 export const storage = getStorage(app);
+export const functions = getFunctions(app);
 export default app;
 
 // connectAuthEmulator(auth, "http://127.0.0.1", 9099);

@@ -12,8 +12,15 @@ const Test = () => {
   const [selectedValue, setSelectedValue] = useState("0");
   const [questionCounter, setQuestionCounter] = useState(1);
   const [currentQuiz, setCurrentQuiz] = useState({});
-  const { trainingModules, finishQuiz, setUploadingQuiz, uploadingQuiz } =
-    useTraining();
+  const {
+    trainingModules,
+    finishQuiz,
+    setUploadingQuiz,
+    uploadingQuiz,
+    getRecentTrainingForModule,
+    getTrainingDueForModule,
+    setCurrentModule,
+  } = useTraining();
   const { alertError, alertSuccess } = useApp();
   const location = useLocation();
   const navigate = useNavigate();
@@ -73,16 +80,35 @@ const Test = () => {
 
     try {
       await finishQuiz(currentQuiz, moduleName, formatted, timeInMs);
-      setUploadingQuiz(false);
-      alertSuccess("Quiz completed");
-      navigate(-1);
+      setTimeout(() => {
+        getTrainingDueForModule();
+        getRecentTrainingForModule();
+        setUploadingQuiz(false);
+        alertSuccess("Quiz completed");
+        navigate(-1);
+      }, 500);
     } catch (error) {
       setUploadingQuiz(false);
       alertError("There was an error uploading quiz");
     }
   };
 
+  const getCurrentModule = async () => {
+    const url = location.pathname;
+    const testID = url.split("/")[5];
+    let currentModByID;
+
+    trainingModules.modules.forEach((module) => {
+      module.courses.forEach((course) => {
+        if (course.id === testID) currentModByID = module;
+      });
+    });
+
+    setCurrentModule(currentModByID);
+  };
+
   useEffect(() => {
+    getCurrentModule();
     fetchTest();
   }, []);
   return (
@@ -120,30 +146,42 @@ const Test = () => {
                   {currentQuiz.questions[questionCounter - 1].answers[1].answer}
                 </h4>
               </div>
-              <div className="question">
-                <Radio
-                  checked={selectedValue === "3"}
-                  onChange={handleChange}
-                  value="3"
-                  name="radio-buttons"
-                  inputProps={{ "aria-label": "A" }}
-                />
-                <h4>
-                  {currentQuiz.questions[questionCounter - 1].answers[2].answer}
-                </h4>
-              </div>
-              <div className="question">
-                <Radio
-                  checked={selectedValue === "4"}
-                  onChange={handleChange}
-                  value="4"
-                  name="radio-buttons"
-                  inputProps={{ "aria-label": "A" }}
-                />
-                <h4>
-                  {currentQuiz.questions[questionCounter - 1].answers[3].answer}
-                </h4>
-              </div>
+              {currentQuiz.questions[questionCounter - 1].answers[2].answer !==
+              "" ? (
+                <div className="question">
+                  <Radio
+                    checked={selectedValue === "3"}
+                    onChange={handleChange}
+                    value="3"
+                    name="radio-buttons"
+                    inputProps={{ "aria-label": "A" }}
+                  />
+                  <h4>
+                    {
+                      currentQuiz.questions[questionCounter - 1].answers[2]
+                        .answer
+                    }
+                  </h4>
+                </div>
+              ) : null}
+              {currentQuiz.questions[questionCounter - 1].answers[3].answer !==
+              "" ? (
+                <div className="question">
+                  <Radio
+                    checked={selectedValue === "4"}
+                    onChange={handleChange}
+                    value="4"
+                    name="radio-buttons"
+                    inputProps={{ "aria-label": "A" }}
+                  />
+                  <h4>
+                    {
+                      currentQuiz.questions[questionCounter - 1].answers[3]
+                        .answer
+                    }
+                  </h4>
+                </div>
+              ) : null}
             </div>
             <div className="button-container">
               <LoadingButton

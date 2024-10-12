@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
 
 const AppContext = React.createContext();
 
@@ -13,8 +12,6 @@ export const AppProvider = ({ children }) => {
   const [onPDFviewer, setPDFviewer] = useState(false);
   const [alertType, setAlertType] = useState("error");
   const [onLargeScreen, setScreen] = useState(false);
-
-  const location = useLocation();
 
   const alertError = (message) => {
     setAlertMessage(message);

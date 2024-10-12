@@ -1,0 +1,31 @@
+@import "../../../../css-variables/variables.sass"
+
+
+.dashboard-container
+    display: flex
+    flex-direction: column
+    position: relative
+
+    .top-container
+        display: flex
+        width: 100%
+        margin: 80px 0 0 0
+        
+    .bottom-container
+        display: flex
+        width: 100%
+
+@media screen and (max-width: $laptop-small-breakpoint)
+    .top-container
+        flex-direction: column
+        .recentTraining-container
+            width: 96%
+        .links-container
+            width: 96%
+    .bottom-container
+        flex-direction: column
+        padding: 0 0 100px 0
+        .frequentlyVisited-container
+            width: 96%
+        .trainingDue-container
+            width: 96%

@@ -15,13 +15,8 @@ import { useApp } from "../../../context/appContext";
 
 const Section = ({ docs, pageID, sectionIndex, moderator }) => {
   const { admin } = useAuth();
-  const {
-    uploadDocsToSection,
-    uploadingDocs,
-    deleteDocs,
-    filesToDelete,
-    updateSectionTitle,
-  } = useDocs();
+  const { uploadDocsToSection, deleteDocs, filesToDelete, updateSectionTitle } =
+    useDocs();
   const { alertError, alertSuccess } = useApp();
   const [options, toggleOptions] = useState(false);
   const [editing, toggleEditing] = useState(false);
@@ -88,10 +83,6 @@ const Section = ({ docs, pageID, sectionIndex, moderator }) => {
   const setEditing = () => {
     toggleEditing(true);
   };
-
-  useEffect(() => {
-    setUploading(uploadingDocs);
-  }, [uploadingDocs]);
 
   return (
     <>

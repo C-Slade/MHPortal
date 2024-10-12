@@ -1,0 +1,128 @@
+.delete-user-container {
+  min-height: 20vh;
+  display: flex;
+  justify-content: center;
+  border-radius: 15px;
+  border: 2px solid #0138b0 !important;
+}
+.delete-user-container .removing-user-loading-animated-container {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+.delete-user-container .removing-user-loading-animated-container .loading {
+  display: flex;
+  align-items: center;
+}
+.delete-user-container .delete-users-modal {
+  display: flex;
+  flex-direction: column;
+  color: #152D64;
+  justify-content: space-around;
+  align-items: center;
+}
+.delete-user-container .delete-users-modal .button-container {
+  display: flex;
+  width: 50%;
+  justify-content: space-around;
+}
+.delete-user-container .delete-users-modal .button-container button {
+  background: tomato;
+  color: white;
+  border: none;
+}
+.delete-user-container .delete-users-modal .button-container .deleteUser {
+  background: #0138b0;
+}
+
+.addUser-container {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  height: 25%;
+  min-height: 200px;
+}
+.addUser-container .addUserModal-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+.addUser-container .addUserModal-container h5 {
+  color: #152D64;
+}
+.addUser-container .addUserModal-container h5 span {
+  color: #466FFD;
+}
+.addUser-container .addUserModal-container h2 {
+  color: #152D64;
+  flex-direction: column;
+}
+.addUser-container .addUserModal-container .email {
+  width: 75%;
+}
+.addUser-container .addUserModal-container .button-container {
+  display: flex;
+  justify-content: space-around;
+  width: 50%;
+}
+.addUser-container .addUserModal-container .button-container .cancel-add-user {
+  background-color: tomato;
+}
+
+.manage-users-container {
+  width: 96%;
+  height: 88%;
+  box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
+  -webkit-box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
+  -moz-box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
+  border-radius: 15px;
+  background: white;
+  margin-top: 90px;
+  align-self: center;
+  padding: 0 20px;
+  position: relative;
+  overflow-y: hidden;
+}
+.manage-users-container .loadingData {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.manage-users-container .top-container {
+  display: flex;
+  justify-content: space-between;
+  height: 10%;
+  align-items: center;
+}
+.manage-users-container .top-container .left-container {
+  display: flex;
+  justify-content: center;
+}
+.manage-users-container .top-container .left-container button {
+  margin: 0 10px;
+  text-transform: capitalize;
+}
+.manage-users-container .top-container .left-container .deleteUser {
+  background: tomato;
+}
+.manage-users-container .top-container .left-container .searchUser-container {
+  display: flex;
+  align-items: center;
+}
+.manage-users-container .top-container .addUser-btn {
+  box-shadow: 5px 5px 5px -2px #a5a5a5;
+  border: 0.5px solid #a5a5a5;
+  height: 30px;
+  font-weight: 700;
+  text-transform: capitalize;
+  border-radius: 5px;
+}
+.manage-users-container .top-container .addUser-btn img {
+  width: 20px;
+  height: 20px;
+  color: rgba(134, 174, 140, 0.7019607843);
+}/*# sourceMappingURL=styles.css.map */

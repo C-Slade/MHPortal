@@ -8,7 +8,6 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import "./css/styles.css";
 import { useDocs } from "../../../context/docContext";
-import { useApp } from "../../../context/appContext";
 import { useTraining } from "../../../context/trainingContext";
 
 const style = {
@@ -95,9 +94,22 @@ export default function DeletePage({ headerLoading, onTrainingPage }) {
             variants={variants}
           >
             <h2>Are you sure you want to delete this page?</h2>
-            <Button variant="contained" onClick={handleDelete}>
-              Delete
-            </Button>
+            <div className="button-container">
+              <Button
+                variant="contained"
+                className="delete"
+                onClick={handleDelete}
+              >
+                Delete
+              </Button>
+              <Button
+                variant="contained"
+                className="cancel"
+                onClick={() => setOpen(false)}
+              >
+                Cancel
+              </Button>
+            </div>
           </motion.div>
         </Box>
       </Modal>

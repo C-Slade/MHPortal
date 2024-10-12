@@ -1,0 +1,72 @@
+.test-results-container {
+  width: 96%;
+  height: 88%;
+  box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
+  -webkit-box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
+  -moz-box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
+  border-radius: 15px;
+  background: white;
+  margin-top: 90px;
+  align-self: center;
+  padding: 0 20px;
+  position: relative;
+  overflow-y: auto;
+}
+.test-results-container .loadingData {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.test-results-container::-webkit-scrollbar {
+  background: #fff;
+  border-radius: 15px;
+}
+.test-results-container .selection-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin: 25px 0;
+}
+.test-results-container .selection-container .selection {
+  width: 30%;
+}
+.test-results-container .table-container {
+  border: 1px solid #868686;
+  min-height: 85%;
+  border-radius: 15px;
+  margin: 0 0 20px 0;
+  text-transform: capitalize;
+}
+.test-results-container .table-container .header {
+  display: flex;
+  width: 100%;
+  border-bottom: 2px solid black;
+  padding: 0 0 0 5%;
+}
+.test-results-container .table-container .header .helper-container {
+  width: 25%;
+  padding: 15px;
+}
+.test-results-container .table-container .row-container {
+  display: flex;
+  width: 100%;
+  border-bottom: 2px solid black;
+  padding: 0 0 0 5%;
+}
+.test-results-container .table-container .row-container h4, .test-results-container .table-container .row-container h3 {
+  color: #152D64;
+}
+.test-results-container .table-container .row-container .info-container {
+  width: 25%;
+  padding: 15px;
+}
+.test-results-container .table-container .row-container .info-container .score-color-container {
+  width: 25%;
+  text-align: center;
+  color: white;
+  border-radius: 5px;
+}
+.test-results-container .table-container .row-container:last-child {
+  border: none !important;
+}/*# sourceMappingURL=styles.css.map */

@@ -6,22 +6,33 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
 import { useApp } from "../../context/appContext";
 import "./css/styles.css";
+import { useNavigate } from "react-router-dom";
 
 const CreateTrainingModule = () => {
-  const { createModule } = useTraining();
+  const { createModule, trainingModules } = useTraining();
   const { alertError, alertSuccess } = useApp();
   const [submitingModule, setSubmitingModule] = useState(false);
   const [moduleName, setModuleName] = useState("");
+  const navigate = useNavigate();
 
   const createNewModule = async () => {
-    setSubmitingModule(true);
-    try {
-      await createModule(moduleName);
-      setSubmitingModule(false);
-      alertSuccess(`${moduleName} has now been created`);
-    } catch (error) {
-      setSubmitingModule(false);
-      alertError("There was an error getting module");
+    const duplicateName = trainingModules.modules.some(
+      (mod) => mod.name === moduleName.toLowerCase()
+    );
+
+    if (!duplicateName) {
+      setSubmitingModule(true);
+      try {
+        await createModule(moduleName);
+        setSubmitingModule(false);
+        alertSuccess(`${moduleName} has now been created`);
+        navigate(`/training/${moduleName}`);
+      } catch (error) {
+        setSubmitingModule(false);
+        alertError("There was an error getting module");
+      }
+    } else {
+      alertError("Module name already exists");
     }
   };
 

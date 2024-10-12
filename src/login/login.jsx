@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { TextField, Button } from "@mui/material";
+import { TextField, Button, InputAdornment, IconButton } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import { useAuth } from "../context/authContext";
 import { motion } from "framer-motion";
 import "./css/styles.css";
 import { useNavigate, Link } from "react-router-dom";
+import InputLabel from "@mui/material/InputLabel";
+import OutlinedInput from "@mui/material/OutlinedInput";
 import { RotatingLines } from "react-loader-spinner";
+import FormControl from "@mui/material/FormControl";
 import logo from "../assets/maritimeLogo.png";
 import wave from "../assets/animated-trans-blue-bg-lg.svg";
 import { useApp } from "../context/appContext";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Login = () => {
   const { signInUser, currentUser } = useAuth();
@@ -21,6 +25,14 @@ const Login = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   const startLoginProccess = async () => {
     setLogging(true);
@@ -93,19 +105,44 @@ const Login = () => {
                 <h3>MHI Portal</h3>
               </div>
               <h1>Login</h1>
-              <form action="">
+              <form action="" onSubmit={() => startLoginProccess()}>
                 <div className="input-container">
                   <TextField
                     label="Email"
                     variant="outlined"
+                    autoComplete="off"
+                    inputProps={{
+                      autoComplete: "new-password",
+                      form: {
+                        autoComplete: "off",
+                      },
+                    }}
                     onChange={(e) => setEmail(e.target.value)}
                   />
-                  <TextField
-                    label="Password"
-                    type="password"
-                    variant="outlined"
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
+                  <FormControl variant="outlined">
+                    <InputLabel htmlFor="outlined-adornment-password">
+                      Password
+                    </InputLabel>
+                    <OutlinedInput
+                      id="outlined-adornment-password"
+                      type={showPassword ? "text" : "password"}
+                      onChange={(e) => setPassword(e.target.value)}
+                      autoComplete="off"
+                      endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      }
+                      label="Password"
+                    />
+                  </FormControl>
                   <Link to="/forgotPass">Forgot Password?</Link>
                   <FormControlLabel
                     control={
@@ -117,13 +154,14 @@ const Login = () => {
                     label="Keep me logged in"
                   />
                 </div>
-                <Button
-                  variant="contained"
-                  onClick={() => startLoginProccess()}
-                >
-                  Login
-                </Button>
               </form>
+              <Button
+                variant="contained"
+                className="loginBtn"
+                onClick={() => startLoginProccess()}
+              >
+                Login
+              </Button>
             </motion.div>
             {loggingIn ? (
               <motion.div

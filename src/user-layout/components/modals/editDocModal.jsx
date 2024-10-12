@@ -28,8 +28,8 @@ const style = {
 };
 
 const variants = {
-  open: { opacity: 1, transform: "scale(1)" },
-  closed: { opacity: 0, transform: "scale(0)" },
+  open: { opacity: 1 },
+  closed: { opacity: 0 },
 };
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
@@ -112,7 +112,7 @@ export default function EditDocModal() {
                 <h6>
                   {files[0] && files[0].name
                     ? files[0].name
-                    : docOnPreview.name}
+                    : docOnPreview?.name}
                 </h6>
               </div>
               <UploadDoc setFiles={setFiles} />

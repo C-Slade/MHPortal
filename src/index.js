@@ -7,6 +7,7 @@ import { getAnalytics } from "firebase/analytics";
 import { AuthProvider } from "./context/authContext";
 import { AppProvider } from "./context/appContext";
 import { HashRouter as Router } from "react-router-dom";
+import ErrorBoundary from "./errors/ErrorBoundary.jsx";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -14,7 +15,9 @@ root.render(
     <Router>
       <AppProvider>
         <AuthProvider>
-          <App />
+          <ErrorBoundary>
+            <App />
+          </ErrorBoundary>
         </AuthProvider>
       </AppProvider>
     </Router>

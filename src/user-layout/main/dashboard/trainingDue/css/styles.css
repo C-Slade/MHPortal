@@ -1,0 +1,76 @@
+.trainingDue-container {
+  width: 35%;
+  box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
+  -webkit-box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
+  -moz-box-shadow: 8px 8px 5px -3px rgba(158, 158, 158, 0.92);
+  border-radius: 15px;
+  background: white;
+  height: 43vh;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  position: relative;
+}
+.trainingDue-container .no-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 22px;
+  color: #152D64;
+}
+.trainingDue-container .heading {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 20px 20px;
+}
+.trainingDue-container .heading h2 {
+  color: #152D64;
+  margin: 0 0 0 5px;
+}
+.trainingDue-container .heading img {
+  width: 24px;
+  height: 24px;
+}
+.trainingDue-container .quizLink-container {
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-self: center;
+  border: 2px solid #152D64;
+  border-radius: 7.5px;
+  margin: 5px 0;
+}
+.trainingDue-container .quizLink-container h4 {
+  font-size: 18px;
+  text-align: center;
+  align-self: center;
+  margin: 0 0 0 5px;
+  color: #152D64;
+}
+.trainingDue-container .quizLink-container .startQuiz {
+  height: 3vh;
+  margin: 10px;
+  width: 25%;
+  padding: 5px;
+  text-transform: capitalize;
+  font-size: 15px;
+  background-color: #152D64;
+}
+
+@media screen and (max-width: 700px) {
+  .startQuiz {
+    width: 40% !important;
+    height: 4vh !important;
+  }
+}
+@media screen and (max-width: 1366px) {
+  .trainingDue-container {
+    display: none !important;
+  }
+}/*# sourceMappingURL=styles.css.map */

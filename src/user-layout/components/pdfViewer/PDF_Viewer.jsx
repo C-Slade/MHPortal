@@ -12,9 +12,13 @@ import { useLocation } from "react-router-dom";
 import "./css/styles.css";
 import { useDocs } from "../../../context/docContext";
 import { useApp } from "../../../context/appContext";
+import { collectionData } from "../../../firebase.js";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { useAuth } from "../../../context/authContext";
 
 const PDF_Viewer = () => {
   const location = useLocation();
+  const { currentUser } = useAuth();
   const [docURL, setURL] = useState("");
   const [docExists, setDocExists] = useState(false);
   const [print, setPrint] = useState(false);
@@ -62,8 +66,12 @@ const PDF_Viewer = () => {
     return arrURL[4];
   };
 
+  const getModuleforUrl = () => {
+    const arrURL = location.pathname.split("/");
+    return arrURL[1];
+  };
+
   const getDocPath = async () => {
-    console.log(getIDFrom_url());
     try {
       const path = await getStoragePath(getIDFrom_url());
       setDocExists(true);
@@ -74,11 +82,52 @@ const PDF_Viewer = () => {
     }
   };
 
+  const addToViewCount = async () => {
+    const docToAddCount = getIDFrom_url();
+    const docRef = doc(collectionData, "users", `${currentUser.uid}`);
+    const docSnap = await getDoc(docRef);
+
+    const userData = docSnap.data();
+
+    if (userData.docCount === undefined) {
+      userData.docCount = [
+        {
+          docID: docToAddCount,
+          viewCount: 1,
+          query: getModuleforUrl(),
+        },
+      ];
+    } else {
+      let addedCount = false;
+      for (let i = 0; i < userData.docCount.length; i++) {
+        const docCount = userData.docCount[i];
+
+        if (docCount.docID === docToAddCount) {
+          userData.docCount[i].viewCount++;
+          addedCount = true;
+          break;
+        }
+      }
+
+      if (addedCount === false) {
+        userData.docCount.push({
+          docID: docToAddCount,
+          viewCount: 1,
+          query: getModuleforUrl(),
+        });
+      }
+    }
+
+    await updateDoc(docRef, userData);
+  };
+
   useEffect(() => {
     setPDFviewer(true);
     getDocPath();
 
     setPrint(docOnPreview.allowPrint);
+
+    addToViewCount();
 
     return () => setPDFviewer(false);
   }, [docOnPreview]);

@@ -1,0 +1,135 @@
+@import "../../../../css-variables/variables.sass"
+
+
+.delete-user-container
+    min-height: 20vh
+    display: flex
+    justify-content: center
+    border-radius: 15px
+    border: 2px solid $main-color-light !important
+
+    .removing-user-loading-animated-container
+        display: flex
+        justify-content: center
+        align-content: center
+
+        .loading 
+            display: flex
+            align-items: center
+
+
+    .delete-users-modal
+        display: flex
+        flex-direction: column
+        color: $main-color
+        justify-content: space-around
+        align-items: center
+
+        .button-container
+            display: flex
+            width: 50%
+            justify-content: space-around
+
+            button
+                background: tomato
+                color: white
+                border: none
+                
+            .deleteUser
+                background: $main-color-light
+
+
+.addUser-container
+    display: flex
+    justify-content: center
+    padding: 10px
+    height: 25%
+    min-height: 200px
+
+    .addUserModal-container
+        display: flex
+        flex-direction: column
+        justify-content: space-around
+        align-items: center
+        height: 100%
+        width: 100%
+
+        h5 
+            color: $main-color
+
+            span 
+                color: $secondary-color
+
+        h2 
+            color: $main-color
+            flex-direction: column
+        
+        .email
+            width: 75%
+
+        .button-container
+            display: flex
+            justify-content: space-around
+            width: 50%
+
+            .cancel-add-user
+                background-color: tomato
+
+    
+    
+.manage-users-container
+    width: 96%
+    height: 88%
+    box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+    -webkit-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+    -moz-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+    border-radius: 15px
+    background: white
+    margin-top: 90px
+    align-self: center
+    padding: 0 20px
+    position: relative
+    overflow-y: hidden
+
+    .loadingData
+        position: absolute
+        left: 50%
+        top: 50%
+        transform: translate(-50%,-50%)
+
+    .top-container
+        display: flex
+        justify-content: space-between
+        height: 10%
+        align-items: center
+
+        .left-container
+            display: flex
+            justify-content: center
+
+            button
+                margin: 0 10px
+                text-transform: capitalize
+
+            .deleteUser
+                background: tomato
+
+            .searchUser-container
+                display: flex
+                align-items: center
+
+        .addUser-btn
+            -webkit-box-shadow: 5px 5px 5px -2px #a5a5a5
+            -moz-box-shadow: 5px 5px 5px -2px #a5a5a5
+            box-shadow: 5px 5px 5px -2px #a5a5a5
+            border: 0.5px solid #a5a5a5
+            height: 30px
+            font-weight: 700
+            text-transform: capitalize
+            border-radius: 5px
+            img
+                width: 20px
+                height: 20px
+                color: #86ae8cb3
+
+

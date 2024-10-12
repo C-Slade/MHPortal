@@ -34,7 +34,7 @@ const SectionOptions = ({
     <motion.div
       className="options-list-container"
       initial={{ opacity: 0 }}
-      animate={open ? { opacity: 1 } : { opacity: 0 }}
+      animate={open ? { opacity: 1 } : { opacity: 0, zIndex: -1 }}
     >
       <ul>
         <li onClick={handleAddFiles}>Add files</li>

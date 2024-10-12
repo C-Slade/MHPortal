@@ -10,13 +10,13 @@ import edit_icon from "../../../assets/edit-document.png";
 import SaveIcon from "@mui/icons-material/Save";
 import LoadingButton from "@mui/lab/LoadingButton";
 import PublishIcon from "@mui/icons-material/Publish";
-import DeleteIcon from "@mui/icons-material/Delete";
 import CloseIcon from "@mui/icons-material/Close";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import { motion } from "framer-motion";
 import DeletePage from "../modals/deletePageModal";
 import { useApp } from "../../../context/appContext";
 import EditDocModal from "../modals/editDocModal";
+import { useTraining } from "../../../context/trainingContext.js";
 
 const variants = {
   open: { opacity: 1, transform: "scale(1)" },
@@ -35,8 +35,10 @@ const Header = () => {
     setModeratorNames,
     docOnPreview,
     docNames,
+    manualNames,
   } = useDocs();
-  const { currentUser, admin, signOutUser, getRegisterKey } = useAuth();
+  const { updateModuleName } = useTraining();
+  const { currentUser, admin, signOutUser } = useAuth();
   const { alertError, onPDFviewer, alertSuccess } = useApp();
   const [editingPage, toggleEdit] = useState(false);
   const [newPageName, setNewPageName] = useState("");
@@ -57,12 +59,39 @@ const Header = () => {
       }
       setLoading(false);
       toggleEdit(false);
+    } else {
+      try {
+        await updateModuleName(newPageName);
+      } catch (error) {
+        alertError(error);
+      }
+      let removeSpacesName = newPageName.replaceAll(" ", "-").split("");
+
+      if (removeSpacesName[removeSpacesName.length - 1] === "-") {
+        removeSpacesName.pop();
+      }
+
+      removeSpacesName = removeSpacesName.join("");
+
+      setLoading(false);
+      toggleEdit(false);
+      navigate(`training/${removeSpacesName}`);
     }
   };
 
   const uploadLayout = async () => {
     setLoading(true);
-    if (newPageName !== "" && !docNames.includes(newPageName)) {
+
+    const onManualsPage = currentPage.includes("manuals");
+    const onDocsPage = currentPage.includes("docs");
+    let duplicateName = false;
+
+    if (onManualsPage && manualNames.includes(newPageName.toLowerCase()))
+      duplicateName = true;
+    if (onDocsPage && docNames.includes(newPageName.toLowerCase()))
+      duplicateName = true;
+
+    if (newPageName !== "" && !duplicateName) {
       setSubmiting(true);
       await submitNewPageLayout(newPageName);
       setPageName("");
@@ -115,6 +144,7 @@ const Header = () => {
               startIcon={<RestartAltIcon />}
               variant="contained"
               size="large"
+              className="reset"
               onClick={() => setSections([])}
             >
               <span>Reset</span>
@@ -153,21 +183,21 @@ const Header = () => {
   };
 
   const getTitle = () => {
-    if (location.pathname.includes("view")) {
-      const previousLocationsArray = location.pathname.split("/");
-      const index = previousLocationsArray.indexOf("view");
-      return (
-        <>
-          <p>
-            <span className="back-btn" onClick={() => navigate(-1)}>
-              {previousLocationsArray[index - 1]}
-            </span>
-            /{docOnPreview.name}
-          </p>
-        </>
-      );
+    const arrayPathname = location.pathname.split("/");
+    const onView = arrayPathname.includes("view");
+    const onTest = arrayPathname.includes("test");
+    const onDocs = arrayPathname.includes("docs");
+    const onTraining = arrayPathname.includes("training");
+    const onManuals = arrayPathname.includes("manuals");
+
+    if (onView) {
+      return <>{docOnPreview?.name.replaceAll("-", " ")}</>;
+    } else if (onTest && (!onDocs || !onManuals) && arrayPathname.length > 3) {
+      return <>{arrayPathname[3].replaceAll("-", " ")}</>;
+    } else if (onDocs || onManuals || onTraining) {
+      return <>{arrayPathname[2].replaceAll("-", " ")}</>;
     } else {
-      return location.pathname.replace("/", "");
+      return <>{arrayPathname[1].replaceAll("-", " ")}</>;
     }
   };
 
@@ -183,6 +213,7 @@ const Header = () => {
           .replace("/docs/", "")
           .replace("/manuals/", "")
           .replace("/training/", "")
+          .replaceAll("-", " ")
       );
     }
 

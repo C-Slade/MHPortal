@@ -1,0 +1,87 @@
+@import "../../../../../css-variables/variables.sass"
+
+.recentTraining-container
+    width: 75%
+    box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+    -webkit-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+    -moz-box-shadow: 8px 8px 5px -3px rgba(158,158,158,0.92)
+    border-radius: 15px
+    background: white
+    height: 45vh
+    margin: 10px
+    position: relative
+    overflow-y: hidden
+    display: flex
+    flex-direction: column
+
+    .loadingScores
+        position: absolute
+        top: 50%
+        left: 50%
+        transform: translate(-50%, -50%)
+
+    .title
+        margin: 20px 20px
+        color: $main-color
+
+    .score-data
+        max-height: 45vh
+        border-radius: 15px
+        box-shadow: none
+        // padding: 0 30px
+        width: 90%
+        align-self: center
+
+        .category
+            color: $main-color
+            font-size: 18px
+            font-weight: 700
+
+        .score-row
+            border-bottom: 2px solid $main-color-light
+
+        .name,
+        .date,
+        .score
+            font-size: 16px
+            font-weight: 550
+            color: $main-color
+        .quiz-tb
+            img
+                width: 24px 
+                height: 24px
+        
+        .score-container
+            width: 50%
+            text-align: center
+            border-radius: 5px
+            color: white
+            padding: 2px
+            
+
+        &::-webkit-scrollbar
+            background: #fff
+            border-radius: 15px
+
+
+    .no-content
+        position: absolute
+        top: 50%
+        left: 50%
+        transform: translate(-50%, -50%)
+        font-size: 22px
+        color: $main-color
+
+    .title 
+        color: $main-color
+
+@media screen and (max-width: $tablet-medium-breakpoint)
+    .score-data
+        .name 
+            font-size: 12px !important
+        .date
+            font-size: 14px !important
+        .score
+            font-size: 16px !important
+        .score-container
+            width: 75% !important
